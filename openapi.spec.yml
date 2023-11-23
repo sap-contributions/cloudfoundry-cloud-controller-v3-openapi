@@ -150,6 +150,15 @@ paths:
         "422":
           description: The given app name is already taken in the targeted space
   /v3/apps/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     delete:
       summary: Delete an app
       description: |-
@@ -203,6 +212,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/droplets/current:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: Get current droplet
       description: |-
@@ -226,6 +244,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/relationships/current_droplet:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: Get current droplet association for an app
       description: |-
@@ -267,6 +294,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/env:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: Get environment for an app
       description: |-
@@ -287,6 +323,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/environment_variables:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: Get environment variables for an app
       description: |-
@@ -325,6 +370,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/permissions:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: Get permissions for an app
       description: |-
@@ -350,6 +404,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/ssh_enabled:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: Get SSH enabled for an app
       description: |-
@@ -375,6 +438,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/actions/start:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     post:
       summary: Start an app
       description: |-
@@ -392,6 +464,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/actions/stop:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     post:
       summary: Stop an app
       description: |-
@@ -409,6 +490,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/actions/restart:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     post:
       summary: Restart an app
       description: |-
@@ -430,6 +520,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/features:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get: #TODO
       summary: List app features
       description: |-
@@ -455,6 +554,22 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/features/{name}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
+      - in: path
+        name: name
+        schema:
+          type: string
+          enum: [ssh, revisions]
+        required: true
+        description: A supported app feature
     get:
       summary: Get an app feature
       description: |-
@@ -493,8 +608,7 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-
-  /v3/app_usage_events:
+  /v3/app_usage_events: 
     get:
       summary: List app usage events
       description: |-
@@ -514,6 +628,15 @@ paths:
         "204":
           description: No Content
   /v3/app_usage_events/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the event
+        example: a595fe2f-01ff-4965-a50c-290258ab8582
     get:
       summary: Get an app usage event
       description: |-
@@ -575,6 +698,15 @@ paths:
         "204":
           description: No Content
   /v3/audit_events/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: a595fe2f-01ff-4965-a50c-290258ab8582
     get:
       summary: Get an audit event
       description: |-
@@ -632,6 +764,15 @@ paths:
         "204":
           description: No Content
   /v3/builds/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the build
+        example: 585bc3c1-3743-497d-88b0-403ad6b56d16
     get:
       summary: Get a build
       description: |-
@@ -671,6 +812,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/builds:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List builds for an app
       description: |-
@@ -729,6 +879,15 @@ paths:
         "204":
           description: No Content
   /v3/buildpacks/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the buildpack
+        example: fd35633f-5c5c-4e4e-a5a9-0722c970a9d2
     delete:
       summary: Delete a buildpack
       description: |-
@@ -772,6 +931,15 @@ paths:
         "204":
           description: No Content
   /v3/buildpacks/{guid}/upload:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the buildpack
+        example: fd35633f-5c5c-4e4e-a5a9-0722c970a9d2
     post:
       summary: Upload buildpack bits
       description: |-
@@ -824,6 +992,15 @@ paths:
         "204":
           description: No Content
   /v3/deployments/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the deployment
+        example: 59c3d133-2b83-46f3-960e-7765a129aea4
     get:
       summary: Get a deployment
       description: |-
@@ -862,6 +1039,15 @@ paths:
         "204":
           description: No Content
   /v3/deployments/{guid}/actions/cancel:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the deployment
+        example: 59c3d133-2b83-46f3-960e-7765a129aea4
     post:
       summary: Cancel a deployment
       description: |-
@@ -913,6 +1099,15 @@ paths:
         "204":
           description: No Content
   /v3/domains/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the domain
+        example: 3a5d3d89-3f89-4f05-8188-8a2b298c79d5
     delete:
       summary: Delete a domain
       description: |-
@@ -968,6 +1163,15 @@ paths:
         "204":
           description: No Content
   /v3/domains/{guid}/relationships/shared_organizations:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the domain
+        example: 3a5d3d89-3f89-4f05-8188-8a2b298c79d5
     post:
       summary: Share a domain
       description: |-
@@ -986,6 +1190,23 @@ paths:
         "204":
           description: No Content
   /v3/domains/{guid}/relationships/shared_organizations/{org_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the domain
+        example: 3a5d3d89-3f89-4f05-8188-8a2b298c79d5
+      - in: path
+        name: org_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     delete:
       summary: Unshare a domain
       description: |-
@@ -1040,6 +1261,15 @@ paths:
         "204":
           description: No Content
   /v3/droplets/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the droplet
+        example: 585bc3c1-3743-497d-88b0-403ad6b56d16
     delete:
       summary: Delete a droplet
       description: |-
@@ -1095,6 +1325,15 @@ paths:
         "204":
           description: No Content
   /v3/droplets/{guid}/download:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the droplet
+        example: 585bc3c1-3743-497d-88b0-403ad6b56d16
     get:
       summary: Download droplet bits
       description: |-
@@ -1121,6 +1360,15 @@ paths:
         "204":
           description: No Content
   /v3/droplets/{guid}/upload:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the droplet
+        example: 585bc3c1-3743-497d-88b0-403ad6b56d16
     post:
       summary: Upload droplet bits
       description: |-
@@ -1139,6 +1387,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/droplets:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List droplets for an app
       description: |-
@@ -1165,6 +1422,14 @@ paths:
         "204":
           description: No Content
   /v3/environment_variable_groups/{name}:
+    parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+          enum: [running, staging]
+        required: true
+        description: The name of the group
     get:
       summary: Get an environment variable group
       description: |-
@@ -1216,6 +1481,31 @@ paths:
         "204":
           description: No Content
   /v3/feature_flags/{name}:
+    parameters:
+      - in: path
+        name: name
+        schema:
+          type: string
+          enum:
+            - app_bits_upload
+            - app_scaling
+            - diego_docker
+            - env_var_visibility
+            - hide_marketplace_from_unauthenticated_users
+            - private_domain_creation
+            - resource_matching
+            - route_creation
+            - route_sharing (experimental)
+            - service_instance_creation
+            - service_instance_sharing
+            - set_roles_by_username
+            - space_developer_env_var_visibility
+            - space_scoped_private_broker_creation
+            - task_creation
+            - unset_roles_by_username
+            - user_org_creation
+        required: true
+        description: The name of the feature flag
     get:
       summary: Get a feature flag
       description: |-
@@ -1307,6 +1597,15 @@ paths:
         "204":
           description: No Content
   /v3/isolation_segments/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the isolation segment
+        example: b19f6525-cbd3-4155-b156-dc0c2a431b4c
     delete:
       summary: Delete an isolation segment
       description: |-
@@ -1354,6 +1653,15 @@ paths:
         "204":
           description: No Content
   /v3/isolation_segments/{guid}/organizations:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the isolation segment
+        example: b19f6525-cbd3-4155-b156-dc0c2a431b4c
     get:
       summary: List organizations for isolation segment
       description: |-
@@ -1378,6 +1686,15 @@ paths:
         "204":
           description: No Content
   /v3/isolation_segments/{guid}/relationships/organizations:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the isolation segment
+        example: b19f6525-cbd3-4155-b156-dc0c2a431b4c
     get:
       summary: List organizations relationship
       description: |-
@@ -1412,6 +1729,23 @@ paths:
         "204":
           description: No Content
   /v3/isolation_segments/{guid}/relationships/organizations/{org_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the isolation segment
+        example: b19f6525-cbd3-4155-b156-dc0c2a431b4c
+      - in: path
+        name: org_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     delete:
       summary: Revoke entitlement to isolation segment for an organization
       description: |-
@@ -1428,6 +1762,15 @@ paths:
         "204":
           description: No Content
   /v3/isolation_segments/{guid}/relationships/spaces:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the isolation segment
+        example: b19f6525-cbd3-4155-b156-dc0c2a431b4c
     get:
       summary: List spaces relationship
       description: |-
@@ -1447,6 +1790,15 @@ paths:
         "204":
           description: No Content
   /v3/jobs/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the job
+        example: b19ae525-cbd3-4155-b156-dc0c2a431b4c
     get:
       summary: Get a job
       description: |-
@@ -1464,6 +1816,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/manifest:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: Generate a manifest for an app
       description: |-
@@ -1483,6 +1844,15 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/actions/apply_manifest:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     post:
       summary: Apply a manifest to a space
       description: |-
@@ -1502,6 +1872,15 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/manifest_diff:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     post:
       summary: Create a manifest diff for a space (experimental)
       description: |-
@@ -1556,6 +1935,15 @@ paths:
         "204":
           description: No Content
   /v3/organizations/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     delete:
       summary: Delete an organization
       description: |-
@@ -1605,6 +1993,15 @@ paths:
         "204":
           description: No Content
   /v3/organizations/{guid}/domains:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     get:
       summary: List domains for an organization
       description: |-
@@ -1627,6 +2024,15 @@ paths:
         "204":
           description: No Content
   /v3/organizations/{guid}/domains/default:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     get:
       summary: Get an organizations default domain
       description: |-
@@ -1655,6 +2061,15 @@ paths:
         "204":
           description: No Content
   /v3/organizations/{guid}/relationships/default_isolation_segment:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     get:
       summary: Get an organizations default isolation segment
       description: |-
@@ -1693,6 +2108,15 @@ paths:
         "204":
           description: No Content
   /v3/organizations/{guid}/usage_summary:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     get:
       summary: Get usage summary for an organization
       description: |-
@@ -1712,6 +2136,15 @@ paths:
         "204":
           description: No Content
   /v3/organizations/{guid}/users:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     get:
       summary: List users of an organization
       description: |-
@@ -1773,6 +2206,15 @@ paths:
         "204":
           description: No Content
   /v3/organization_quotas/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization quota
+        example: 83a02ff2-f4cd-4824-8004-958f211425d0
     delete:
       summary: Delete an organization quota
       description: |-
@@ -1830,6 +2272,15 @@ paths:
         "204":
           description: No Content
   /v3/organization_quotas/{guid}/relationships/organizations:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization quota
+        example: 83a02ff2-f4cd-4824-8004-958f211425d0
     post:
       summary: Apply an organization quota to an organization
       description: |-
@@ -1880,6 +2331,15 @@ paths:
         "204":
           description: No Content
   /v3/packages/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the package
+        example: 44f7c078-0934-470f-9883-4fcddc5b8f13
     delete:
       summary: Delete a package
       description: |-
@@ -1933,6 +2393,15 @@ paths:
         "204":
           description: No Content
   /v3/packages/{guid}/droplets:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the package
+        example: 44f7c078-0934-470f-9883-4fcddc5b8f13
     get:
       summary: List droplets for a package
       description: |-
@@ -1959,6 +2428,15 @@ paths:
         "204":
           description: No Content
   /v3/packages/{guid}/upload:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the package
+        example: 44f7c078-0934-470f-9883-4fcddc5b8f13
     post:
       summary: Upload package bits
       description: |-
@@ -1980,6 +2458,15 @@ paths:
         "204":
           description: No Content
   /v3/packages/{guid}/download:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the package
+        example: 44f7c078-0934-470f-9883-4fcddc5b8f13
     get:
       summary: Download package bits
       description: |-
@@ -2001,6 +2488,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/packages:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List packages for an app
       description: |-
@@ -2046,6 +2542,15 @@ paths:
         "204":
           description: No Content
   /v3/processes/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the process
+        example: 6a901b7c-9417-4dc1-8189-d3234aa0ab82
     get:
       summary: Get a process
       description: |-
@@ -2085,6 +2590,15 @@ paths:
         "204":
           description: No Content
   /v3/processes/{guid}/actions/scale:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the process
+        example: 6a901b7c-9417-4dc1-8189-d3234aa0ab82
     post:
       summary: Scale a process
       description: |-
@@ -2102,6 +2616,22 @@ paths:
         "204":
           description: No Content
   /v3/processes/{guid}/instances/{index}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the process
+        example: 6a901b7c-9417-4dc1-8189-d3234aa0ab82
+      - in: path
+        name: index
+        schema:
+          type: integer
+        required: true
+        description: The zero-based index of a running instance
+        example: 0
     delete:
       summary: Terminate a process instance
       description: |-
@@ -2123,6 +2653,15 @@ paths:
         "204":
           description: No Content
   /v3/processes/{guid}/stats:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the process
+        example: 6a901b7c-9417-4dc1-8189-d3234aa0ab82
     get:
       summary: Get stats for a process
       description: |-
@@ -2148,6 +2687,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/processes:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List processes for app
       description: |-
@@ -2174,6 +2722,22 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/processes/{type}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
+      - in: path
+        name: type
+        schema:
+          type: string
+        required: true
+        description: Process type; a unique identifier for processes belonging to an app
+        example: web
     get: #TODO
       summary: Get a process of an app
       description: |-
@@ -2198,6 +2762,22 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/processes/{type}/actions/scale:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
+      - in: path
+        name: type
+        schema:
+          type: string
+        required: true
+        description: Process type; a unique identifier for processes belonging to an app
+        example: web
     post:
       summary: Scale a process of an app
       description: |-
@@ -2216,6 +2796,29 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/processes/{type}/instances/{index}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
+      - in: path
+        name: type
+        schema:
+          type: string
+        required: true
+        description: Process type; a unique identifier for processes belonging to an app
+        example: web
+      - in: path
+        name: index
+        schema:
+          type: integer
+        required: true
+        description: The zero-based index of a running instance
+        example: 0
     delete:
       summary: Terminate a process instance of an app
       description: |-
@@ -2238,6 +2841,22 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/processes/{type}/stats:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
+      - in: path
+        name: type
+        schema:
+          type: string
+        required: true
+        description: Process type; a unique identifier for processes belonging to an app
+        example: web
     get:
       summary: Get stats for a process of an app
       description: |-
@@ -2281,6 +2900,15 @@ paths:
         "204":
           description: No Content
   /v3/revisions/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the revision
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: Get a revision
       description: |-
@@ -2319,6 +2947,15 @@ paths:
         "204":
           description: No Content
   /v3/revisions/{guid}/environment_variables:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the revision
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: Get environment variables for a revision
       description: |-
@@ -2338,6 +2975,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/revisions:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List revisions for an app
       description: |-
@@ -2364,6 +3010,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/revisions/deployed:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List deployed revisions for an app
       description: |-
@@ -2435,6 +3090,15 @@ paths:
         "204":
           description: No Content
   /v3/roles/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the role
+        example: 40557c70-d1bd-4976-a2ab-a85f5e882418
     delete:
       summary: Delete a role
       description: |-
@@ -2515,6 +3179,15 @@ paths:
         "204":
           description: No Content
   /v3/routes/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the route
+        example: cbad697f-cac1-48f4-9017-ac08f39dfb31
     delete:
       summary: Delete a route
       description: |-
@@ -2571,6 +3244,15 @@ paths:
         "204":
           description: No Content
   /v3/routes/{guid}/destinations:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the route
+        example: cbad697f-cac1-48f4-9017-ac08f39dfb31
     get:
       summary: List destinations for a route
       description: |-
@@ -2637,6 +3319,23 @@ paths:
         "204":
           description: No Content
   /v3/routes/{guid}/destinations/{destination_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the route
+        example: cbad697f-cac1-48f4-9017-ac08f39dfb31
+      - in: path
+        name: destination_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the destination
+        example: 89323d4e-2e84-43e7-83e9-adbf50a20c0e
     delete:
       summary: Remove destination from a route
       description: |-
@@ -2672,6 +3371,15 @@ paths:
         "204":
           description: No Content
   /v3/routes/{guid}/relationships/shared_spaces:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the route
+        example: cbad697f-cac1-48f4-9017-ac08f39dfb31
     get:
       summary: List shared spaces relationship (experimental)
       description: |-
@@ -2718,6 +3426,23 @@ paths:
         "204":
           description: No Content
   /v3/routes/{guid}/relationships/shared_spaces/{space_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the route
+        example: cbad697f-cac1-48f4-9017-ac08f39dfb31
+      - in: path
+        name: space_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the route
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Unshare a route that was shared with another space (experimental)
       description: |-
@@ -2738,6 +3463,15 @@ paths:
         "204":
           description: No Content
   /v3/routes/{guid}/relationships/space:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the route
+        example: cbad697f-cac1-48f4-9017-ac08f39dfb31
     patch:
       summary: Transfer ownership (experimental)
       description: |-
@@ -2757,6 +3491,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/routes:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List routes for an app
       description: |-
@@ -2784,6 +3527,15 @@ paths:
         "204":
           description: No Content
   /v3/domains/{guid}/route_reservations:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the domain
+        example: 3a5d3d89-3f89-4f05-8188-8a2b298c79d5
     get:
       summary: Check reserved routes for a domain
       description: |-
@@ -2812,6 +3564,15 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/routes:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Delete unmapped routes for a space
       description: |-
@@ -2878,6 +3639,15 @@ paths:
         "204":
           description: No Content
   /v3/security_groups/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the security group
+        example: b85a788e-671f-4549-814d-e34cdb2f539a
     delete:
       summary: Delete a security group
       description: |-
@@ -2935,6 +3705,15 @@ paths:
         "204":
           description: No Content
   /v3/security_groups/{guid}/relationships/running_spaces:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the security group
+        example: b85a788e-671f-4549-814d-e34cdb2f539a
     post:
       summary: Bind a running security group to spaces
       description: |-
@@ -2960,6 +3739,23 @@ paths:
         "204":
           description: No Content
   /v3/security_groups/{guid}/relationships/running_spaces/{space_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the security group
+        example: b85a788e-671f-4549-814d-e34cdb2f539a
+      - in: path
+        name: space_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Unbind a running security group from a space
       description: |-
@@ -2981,6 +3777,15 @@ paths:
         "204":
           description: No Content
   /v3/security_groups/{guid}/relationships/staging_spaces:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the security group
+        example: b85a788e-671f-4549-814d-e34cdb2f539a
     post:
       summary: Bind a staging security group to spaces
       description: |-
@@ -3006,6 +3811,23 @@ paths:
         "204":
           description: No Content
   /v3/security_groups/{guid}/relationships/staging_spaces/{space_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the security group
+        example: b85a788e-671f-4549-814d-e34cdb2f539a
+      - in: path
+        name: space_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Unbind a staging security group from a space
       description: |-
@@ -3027,6 +3849,15 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/running_security_groups:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: List running security groups for a space
       description: |-
@@ -3053,6 +3884,15 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/staging_security_groups:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: List staging security groups for a space
       description: |-
@@ -3119,6 +3959,15 @@ paths:
         "204":
           description: No Content
   /v3/service_brokers/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service broker
+        example: dde5ad2a-d8f4-44dc-a56f-0452d744f1c3
     delete:
       summary: Delete a service broker
       description: |-
@@ -3196,6 +4045,15 @@ paths:
         "204":
           description: No Content
   /v3/service_offerings/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service offering
+        example: bf7eb420-11e5-11ea-b7db-4b5d5e7976a9
     delete:
       summary: Delete a service offering
       description: |-
@@ -3271,6 +4129,15 @@ paths:
         "204":
           description: No Content
   /v3/service_plans/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service plan
+        example: bf7eb420-11e5-11ea-b7db-4b5d5e7976a9
     delete:
       summary: Delete a service plan
       description: |-
@@ -3324,6 +4191,15 @@ paths:
         "204":
           description: No Content
   /v3/service_plans/{guid}/visibility:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service plan
+        example: bf7eb420-11e5-11ea-b7db-4b5d5e7976a9
     get:
       summary: Get a service plan visibility
       description: |-
@@ -3372,8 +4248,24 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-
   /v3/service_plans/{guid}/visibility/{organization_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service plan
+        example: bf7eb420-11e5-11ea-b7db-4b5d5e7976a9
+      - in: path
+        name: organization_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the organization
+        example: 24637893-3b77-489d-bb79-8466f0d88b52
     delete:
       summary: Remove organization from a service plan visibility
       description: |-
@@ -3428,6 +4320,15 @@ paths:
         "204":
           description: No Content
   /v3/service_instances/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service instance
+        example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
     delete:
       summary: Delete a service instance
       description: |-
@@ -3489,6 +4390,15 @@ paths:
         "204":
           description: No Content
   /v3/service_instances/{guid}/credentials:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service instance
+        example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
     get:
       summary: Get credentials for a user-provided service instance
       description: |-
@@ -3509,6 +4419,15 @@ paths:
         "204":
           description: No Content
   /v3/service_instances/{guid}/parameters:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service instance
+        example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
     get:
       summary: Get parameters for a managed service instance
       description: |-
@@ -3533,6 +4452,15 @@ paths:
         "204":
           description: No Content
   /v3/service_instances/{guid}/permissions:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service instance
+        example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
     get:
       summary: Get permissions for a service instance
       description: |-
@@ -3554,6 +4482,15 @@ paths:
         "204":
           description: No Content
   /v3/service_instances/{guid}/relationships/shared_spaces:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service instance
+        example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
     get:
       summary: List shared spaces relationship
       description: |-
@@ -3596,6 +4533,23 @@ paths:
         "204":
           description: No Content
   /v3/service_instances/{guid}/relationships/shared_spaces/{space_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service instance
+        example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Unshare a service instance from another space
       description: |-
@@ -3614,6 +4568,15 @@ paths:
         "204":
           description: No Content
   /v3/service_instances/{guid}/relationships/shared_spaces/usage_summary:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service instance
+        example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
     get:
       summary: Get usage summary in shared spaces
       description: |-
@@ -3683,6 +4646,15 @@ paths:
         "204":
           description: No Content
   /v3/service_credential_bindings/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service credential binding
+        example: dde5ad2a-d8f4-44dc-a56f-0452d744f1c3
     delete:
       summary: Delete a service credential binding
       description: |-
@@ -3743,6 +4715,15 @@ paths:
         "204":
           description: No Content
   /v3/service_credential_bindings/{guid}/details:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service credential binding
+        example: dde5ad2a-d8f4-44dc-a56f-0452d744f1c3
     get:
       summary: Get details from a service credential binding
       description: |-
@@ -3762,6 +4743,15 @@ paths:
         "204":
           description: No Content
   /v3/service_credential_bindings/{guid}/parameters:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service credential binding
+        example: dde5ad2a-d8f4-44dc-a56f-0452d744f1c3
     get:
       summary: Get parameters for a service credential binding
       description: |-
@@ -3829,6 +4819,15 @@ paths:
         "204":
           description: No Content
   /v3/service_route_bindings/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service route binding
+        example: dde5ad2a-d8f4-44dc-a56f-0452d744f1c3
     delete:
       summary: Delete a service route binding
       description: |-
@@ -3889,6 +4888,15 @@ paths:
         "204":
           description: No Content
   /v3/service_route_bindings/{guid}/parameters:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the service route binding
+        example: dde5ad2a-d8f4-44dc-a56f-0452d744f1c3
     get:
       summary: Get parameters for a route binding
       description: |-
@@ -3927,6 +4935,15 @@ paths:
         "204":
           description: No Content
   /v3/service_usage_events/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the event
+        example: c9976002-96f4-435a-888e-db1e1178df62
     get:
       summary: Get a service usage event
       description: |-
@@ -3962,6 +4979,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/sidecars:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List sidecars for app
       description: |-
@@ -4004,6 +5030,15 @@ paths:
         "204":
           description: No Content
   /v3/processes/{guid}/sidecars:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the process
+        example: 6a901b7c-9417-4dc1-8189-d3234aa0ab82
     get:
       summary: List sidecars for process
       description: |-
@@ -4030,6 +5065,15 @@ paths:
         "204":
           description: No Content
   /v3/sidecars/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the sidecar
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Delete a sidecar
       description: |-
@@ -4082,7 +5126,6 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-
   /v3/spaces:
     get:
       summary: List spaces
@@ -4118,6 +5161,15 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Delete a space
       description: |-
@@ -4173,8 +5225,16 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-
   /v3/spaces/{guid}/relationships/isolation_segment:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: Get assigned isolation segment
       description: |-
@@ -4215,6 +5275,15 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/users:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: List users for a space
       description: |-
@@ -4265,6 +5334,22 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/features/{name}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
+      - in: path
+        name: name
+        schema:
+          type: string
+          enum: [ssh]
+        required: true
+        description: Name of the space feature
     get:
       summary: Get a space feature
       description: |-
@@ -4340,6 +5425,15 @@ paths:
         "204":
           description: No Content
   /v3/space_quotas/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space quota
+        example: f919ef8a-e333-472a-8172-baaf2c30d301
     delete:
       summary: Delete a space quota
       description: |-
@@ -4396,7 +5490,16 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-  /v3/space_quotas/{quota_guid}/relationships/spaces:
+  /v3/space_quotas/{guid}/relationships/spaces:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space quota
+        example: f919ef8a-e333-472a-8172-baaf2c30d301
     post:
       summary: Apply a space quota to a space
       description: |-
@@ -4414,7 +5517,24 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-  /v3/space_quotas/{quota_guid}/relationships/spaces/{space_guid}:
+  /v3/space_quotas/{guid}/relationships/spaces/{space_guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space quota
+        example: f919ef8a-e333-472a-8172-baaf2c30d301
+      - in: path
+        name: space_guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     delete:
       summary: Remove a space quota from a space
       description: |-
@@ -4465,6 +5585,15 @@ paths:
         "204":
           description: No Content
   /v3/stacks/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the stack
+        example: 11c916c9-c2f9-440e-8e73-102e79c4704d
     delete:
       summary: Delete a stack
       description: |-
@@ -4510,6 +5639,15 @@ paths:
         "204":
           description: No Content
   /v3/stacks/{guid}/apps:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the stack
+        example: 11c916c9-c2f9-440e-8e73-102e79c4704d
     get:
       summary: List apps on a stack
       description: |-
@@ -4548,6 +5686,15 @@ paths:
         "204":
           description: No Content
   /v3/tasks/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the task
+        example: d5cc22ec-99a3-4e6a-af91-a44b4ab7b6fa
     get:
       summary: Get a task
       description: |-
@@ -4588,6 +5735,15 @@ paths:
         "204":
           description: No Content
   /v3/tasks/{guid}/actions/cancel:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the task
+        example: d5cc22ec-99a3-4e6a-af91-a44b4ab7b6fa
     post:
       summary: Cancel a task
       description: |-
@@ -4613,6 +5769,15 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/tasks:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the app
+        example: 1cb006ee-fb05-47e1-b541-c34179ddc446
     get:
       summary: List tasks for an app
       description: |-
@@ -4697,6 +5862,15 @@ paths:
         "204":
           description: No Content
   /v3/users/{guid}:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Unique identifier for the user
+        example: 3a5d3d89-3f89-4f05-8188-8a2b298c79d5
     delete:
       summary: Delete a user
       description: |-
