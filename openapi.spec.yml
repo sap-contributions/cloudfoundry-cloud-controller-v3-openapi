@@ -95,12 +95,12 @@ tags:
   - name: Tasks
     description: Endpoints for managing one-off jobs that are intended to perform a task, stop, and be cleaned up, freeing up resources.
   - name: Users
-    description: Endpoints for managing users. 
+    description: Endpoints for managing users.
   - name: Experimental
 paths:
   /v3/admin/actions/clear_buildpack_cache:
     post:
-      description: |- 
+      description: |-
         This endpoint will delete all of the existing buildpack caches in the blobstore. The buildpack cache is used during staging by buildpacks as a way to cache certain resources, e.g. downloaded Ruby gems. An admin who wants to decrease the size of their blobstore could use this endpoint to delete unnecessary blobs.
 
         __Permitted roles__:
@@ -150,7 +150,7 @@ paths:
         "422":
           description: The given app name is already taken in the targeted space
   /v3/apps/{guid}:
-    delete: 
+    delete:
       summary: Delete an app
       description: |-
         __Permitted Roles:__
@@ -188,7 +188,7 @@ paths:
       responses:
         "204":
           description: No Content
-    patch: 
+    patch:
       summary: Update an app
       description: |-
         __Permitted Roles:__
@@ -255,7 +255,7 @@ paths:
       summary: Set current droplet
       description: |-
         Set the current droplet for an app. The current droplet is the droplet that the app will use when running.
-        
+
         __Permitted Roles:__
         * Admin
         * Space Developer
@@ -593,9 +593,9 @@ paths:
         * Admin
         * Admin Read-Only
         * Global Auditor
-        * Org Auditor	(Cannot see events which occurred in orgs that the user does not belong to)
-        * Space Auditor	(Cannot see events which occurred in orgs that the user does not belong to)
-        * Space Developer	(Cannot see events which occurred in orgs that the user does not belong to)
+        * Org Auditor (Cannot see events which occurred in orgs that the user does not belong to)
+        * Space Auditor (Cannot see events which occurred in orgs that the user does not belong to)
+        * Space Developer (Cannot see events which occurred in orgs that the user does not belong to)
         * Space Supporter (Cannot see events which occurred in orgs that the user does not belong to)
       security:
         - uaa:
@@ -646,7 +646,7 @@ paths:
   /v3/builds/{guid}:
     get:
       summary: Get a build
-      description: |- 
+      description: |-
         __Permitted Roles:__
         * Admin
         * Admin Read-Only
@@ -786,7 +786,7 @@ paths:
         "204":
           description: No Content
   /v3/buildpacks/{guid}/upload:
-    post: 
+    post:
       summary: Upload buildpack bits
       description: |-
         Upload a zip file containing a Cloud Foundry compatible buildpack. The file must be sent as part of a multi-part form.
@@ -821,7 +821,7 @@ paths:
           description: No Content
     post:
       summary: Create a deployment
-      description: |- 
+      description: |-
         When you create a new deployment you can either provide a specific droplet or revision to deploy. If no revision or droplet is provided, the droplet associated with the app is deployed.
 
         __Permitted Roles:__
@@ -889,7 +889,7 @@ paths:
           - cloud_controller.admin
           - cloud_controller.write
       tags:
-        - Deployments 
+        - Deployments
       responses: #TODO
         "204":
           description: No Content
@@ -945,7 +945,7 @@ paths:
           description: No Content
     get:
       summary: Get a domain
-      description: |- 
+      description: |-
         __Permitted Roles:__
         * Admin
         * Admin Read-Only
@@ -1157,7 +1157,7 @@ paths:
         "204":
           description: No Content
   /v3/apps/{guid}/droplets:
-    get: 
+    get:
       summary: List droplets for an app
       description: |-
         Retrieve a list of droplets belonging to an app.
@@ -1216,7 +1216,7 @@ paths:
         "204":
           description: No Content
   /v3/feature_flags:
-    get: 
+    get:
       summary: List feature flags
       description: |-
         Retrieve all feature_flags.
@@ -1655,16 +1655,16 @@ paths:
         Retrieve the default domain for a given organization.
 
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
-        * Global Auditor	
-        * Org Auditor	
-        * Org Billing Manager	(can only view domains without an organization relationship)
-        * Org Manager	
-        * Space Auditor	
-        * Space Developer	
-        * Space Manager	
-        * Space Supporter	
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Billing Manager (can only view domains without an organization relationship)
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
       security:
         - uaa:
           - cloud_controller.admin
@@ -1701,7 +1701,7 @@ paths:
       summary: Assign default isolation segment to an organization
       description: |-
         Set the default isolation segment for a given organization. Only isolation segments that are entitled to the organization are eligible to be the default isolation segment.
-      
+
         __Permitted Roles:__
         * Admin
         * Org Manager
@@ -1760,16 +1760,16 @@ paths:
         This endpoint lists all organization quota resources.
 
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
-        * Global Auditor	
-        * Org Manager	(response will only include guids of managed * organizations)
-        * Org Auditor	(response will only include guids of audited organizations)
-        * Org Billing Manager	(response will only include guids of billing-managed organizations)
-        * Space Auditor	(response will only include guids of parent organizations)
-        * Space Developer	(response will only include guids of parent organizations)
-        * Space Manager	(response will only include guids of parent organizations)
-        * Space Supporter	(response will only include guids of parent organizations)
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager (response will only include guids of managed * organizations)
+        * Org Auditor (response will only include guids of audited organizations)
+        * Org Billing Manager (response will only include guids of billing-managed organizations)
+        * Space Auditor (response will only include guids of parent organizations)
+        * Space Developer (response will only include guids of parent organizations)
+        * Space Manager (response will only include guids of parent organizations)
+        * Space Supporter (response will only include guids of parent organizations)
       security:
         - uaa:
           - cloud_controller.admin
@@ -1818,16 +1818,16 @@ paths:
         This endpoint gets an individual organization quota resource.
 
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
-        * Global Auditor	
-        Org Manager	(response will only include guids of managed organizations)
-        * Org Auditor	(response will only include guids of audited organizations)
-        * Org Billing Manager	(response will only include guids of billing-managed organizations)
-        * Space Auditor	(response will only include guids of parent organizations)
-        * Space Developer	(response will only include guids of parent organizations)
-        * Space Manager	(response will only include guids of parent organizations)
-        * Space Supporter	(response will only include guids of parent organizations)
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        Org Manager (response will only include guids of managed organizations)
+        * Org Auditor (response will only include guids of audited organizations)
+        * Org Billing Manager (response will only include guids of billing-managed organizations)
+        * Space Auditor (response will only include guids of parent organizations)
+        * Space Developer (response will only include guids of parent organizations)
+        * Space Manager (response will only include guids of parent organizations)
+        * Space Supporter (response will only include guids of parent organizations)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2055,7 +2055,7 @@ paths:
         "204":
           description: No Content
   /v3/processes:
-    get: 
+    get:
       summary: List processes
       description: |-
         Retrieve all processes the user has access to.
@@ -2074,18 +2074,18 @@ paths:
         "204":
           description: No Content
   /v3/processes/{guid}:
-    get: 
+    get:
       summary: Get a process
       description: |-
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
+        * Admin
+        * Admin Read-Only
         * Global Auditor (some fields are redacted)
-        * Org Manager	(some fields are redacted)
-        * Space Auditor	(some fields are redacted)
-        * Space Developer	
-        * Space Manager	(some fields are redacted)
-        * Space Supporter	(some fields are redacted)
+        * Org Manager (some fields are redacted)
+        * Space Auditor (some fields are redacted)
+        * Space Developer
+        * Space Manager (some fields are redacted)
+        * Space Supporter (some fields are redacted)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2158,14 +2158,14 @@ paths:
         Process stats are objects that represent the individual instances of a process.
 
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
+        * Admin
+        * Admin Read-Only
         * Global Auditor (some fields are redacted)
         * Org Manager (some fields are redacted)
-        * Space Auditor	(some fields are redacted)
-        * Space Developer	
-        * Space Manager	(some fields are redacted)
-        * Space Supporter	(some fields are redacted)
+        * Space Auditor (some fields are redacted)
+        * Space Developer
+        * Space Manager (some fields are redacted)
+        * Space Supporter (some fields are redacted)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2209,14 +2209,14 @@ paths:
       summary: Get a process of an app
       description: |-
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
+        * Admin
+        * Admin Read-Only
         * Global Auditor (some fields are redacted)
-        * Org Manager	(some fields are redacted)
-        * Space Auditor	(some fields are redacted)
-        * Space Developer	
-        * Space Manager	(some fields are redacted)
-        * Space Supporter	(some fields are redacted)
+        * Org Manager (some fields are redacted)
+        * Space Auditor (some fields are redacted)
+        * Space Developer
+        * Space Manager (some fields are redacted)
+        * Space Supporter (some fields are redacted)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2276,14 +2276,14 @@ paths:
         Process stats are objects that represent the individual instances of a process.
 
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
+        * Admin
+        * Admin Read-Only
         * Global Auditor (some fields are redacted)
         * Org Manager (some fields are redacted)
-        * Space Auditor	(some fields are redacted)
-        * Space Developer	
-        * Space Manager	(some fields are redacted)
-        * Space Supporter	(some fields are redacted)
+        * Space Auditor (some fields are redacted)
+        * Space Developer
+        * Space Manager (some fields are redacted)
+        * Space Supporter (some fields are redacted)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2458,9 +2458,9 @@ paths:
         If the associated user is valid but does not exist in Cloud Controller's database, a user resource will be created automatically.
 
         __Permitted Roles:__
-        * Admin	
-        * Org Manager	(can create roles in managed organizations and spaces within those organizations; can also create roles for users outside of managed organizations when set_roles_by_username feature_flag is enabled; this requires identifying users by username and origin)
-        * Space Manager	(can create roles in managed spaces for users in their org)
+        * Admin
+        * Org Manager (can create roles in managed organizations and spaces within those organizations; can also create roles for users outside of managed organizations when set_roles_by_username feature_flag is enabled; this requires identifying users by username and origin)
+        * Space Manager (can create roles in managed spaces for users in their org)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2477,9 +2477,9 @@ paths:
         This endpoint deletes an individual role.
 
         __Permitted Roles:__
-        * Admin	
-        * Org Manager	(can delete roles in managed organizations or spaces in those organizations)
-        * Space Manager	(can delete roles in managed spaces)
+        * Admin
+        * Org Manager (can delete roles in managed organizations or spaces in those organizations)
+        * Space Manager (can delete roles in managed spaces)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2495,15 +2495,15 @@ paths:
         This endpoint gets an individual role resource.
 
         __Permitted Roles:__
-        * Admin	
-        * Admin Read-Only	
-        * Global Auditor	
-        * Org Manager	(can see roles in managed organizations or spaces in those organizations)
-        * Org Auditor	(can only see organization roles in audited organizations)
-        * Org Billing Manager	(can only see organization roles in billing-managed organizations)
-        * Space Auditor	(can see roles in audited spaces or parent organizations)
-        * Space Developer	(can see roles in developed spaces or parent organizations)
-        * Space Manager	(can see roles in managed spaces or parent organizations)
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager (can see roles in managed organizations or spaces in those organizations)
+        * Org Auditor (can only see organization roles in audited organizations)
+        * Org Billing Manager (can only see organization roles in billing-managed organizations)
+        * Space Auditor (can see roles in audited spaces or parent organizations)
+        * Space Developer (can see roles in developed spaces or parent organizations)
+        * Space Manager (can see roles in managed spaces or parent organizations)
         * Space Supporter ((under development) can see roles in supported spaces or parent organizations)
       security:
         - uaa:
@@ -2641,7 +2641,7 @@ paths:
         Replaces all destinations for a route, removing any destinations not included in the provided list.
 
         If using weighted destinations, all destinations provided here must have a weight specified, and all weights for this route must sum to 100. If not, all provided destinations must not have a weight. Mixing weighted and unweighted destinations for a route is not allowed.
-      
+
         __Permitted Roles:__
         * Admin
         * Space Developer
@@ -2661,7 +2661,7 @@ paths:
         Add one or more destinations to a route, preserving any existing destinations.
 
         Note that weighted destinations cannot be added with this endpoint. To add weighted destinations, replace all destinations for a route at once using the replace destinations endpoint.
-        
+
         __Permitted Roles:__
         * Admin
         * Space Developer
@@ -2696,7 +2696,7 @@ paths:
       summary: Update a destination protocol for a route
       description: |-
         This endpoint updates the protocol of a route destination (app, port and weight cannot be updated)
-     
+
         __Permitted Roles:__
         * Admin
         * Space Developer
@@ -2742,7 +2742,7 @@ paths:
       summary: Share a route with other spaces (experimental)
       description: |-
         This endpoint shares the route with the specified spaces. This allows users with read and write access in both the route's space and a shared space to bind a route to an app in the shared space. In order to share into a space the requesting user must have write permission in the target space.
-     
+
         __Permitted Roles:__
         * Admin
         * Space Developer
@@ -2762,7 +2762,7 @@ paths:
       summary: Unshare a route that was shared with another space (experimental)
       description: |-
         Unshares a route that was shared with another space.
-     
+
         __Permitted Roles:__
         * Admin
         * Space Developer
@@ -2782,7 +2782,7 @@ paths:
       summary: Transfer ownership (experimental)
       description: |-
         Transfers a the ownership of a route to a another space. Users must have write access for both spaces to perform this action. The original owning space will still retain access to the route as a shared space. To completely remove a space from a route, users will have to use unshare route.
-     
+
         __Permitted Roles:__
         * Admin
         * Space Developer
@@ -2877,7 +2877,7 @@ paths:
           schema:
             type: boolean
             default: true
-          allowReserved: true 
+          allowReserved: true
       responses: #TODO
         "204":
           description: No Content
@@ -2886,16 +2886,16 @@ paths:
       summary: List security groups
       description: |-
         __Permitted Roles:__
-        * Admin	
+        * Admin
         * Admin Read-Only
         * Global Auditor
-        * Org Auditor	(can see globally enabled security groups)
-        * Org Billing Manager	(Can see globally enabled security groups)
-        * Org Manager	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Auditor	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Developer	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Manager	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Supporter	(can see globally enabled security groups or groups associated with a space they can see)
+        * Org Auditor (can see globally enabled security groups)
+        * Org Billing Manager (Can see globally enabled security groups)
+        * Org Manager (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Auditor (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Developer (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Manager (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Supporter (can see globally enabled security groups or groups associated with a space they can see)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2938,16 +2938,16 @@ paths:
       summary: Get a security group
       description: |-
         __Permitted Roles:__
-        * Admin	
+        * Admin
         * Admin Read-Only
         * Global Auditor
-        * Org Auditor	(can see globally enabled security groups)
-        * Org Billing Manager	(Can see globally enabled security groups)
-        * Org Manager	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Auditor	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Developer	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Manager	(can see globally enabled security groups or groups associated with a space they can see)
-        * Space Supporter	(can see globally enabled security groups or groups associated with a space they can see)
+        * Org Auditor (can see globally enabled security groups)
+        * Org Billing Manager (Can see globally enabled security groups)
+        * Org Manager (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Auditor (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Developer (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Manager (can see globally enabled security groups or groups associated with a space they can see)
+        * Space Supporter (can see globally enabled security groups or groups associated with a space they can see)
       security:
         - uaa:
           - cloud_controller.admin
@@ -2991,9 +2991,9 @@ paths:
         Unless a security group is globally-enabled, an admin must add it to a space for it to be visible for the org and space managers. Once it's visible, org and space managers can add it to additional spaces.
 
         __Permitted Roles:__
-        * Admin	
-        * Space Manager	(can bind visible security groups to their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
-        * Org Manager	(can bind visible security groups to their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Admin
+        * Space Manager (can bind visible security groups to their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager (can bind visible security groups to their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
       security:
         - uaa:
           - cloud_controller.admin
@@ -3012,9 +3012,9 @@ paths:
         Apps within this space must be restarted for these changes to take effect.
 
         __Permitted Roles:__
-        * Admin	
-        * Space Manager	(can unbind visible security groups from their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
-        * Org Manager	(can unbind visible security groups from their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Admin
+        * Space Manager (can unbind visible security groups from their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager (can unbind visible security groups from their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
       security:
         - uaa:
           - cloud_controller.admin
@@ -3037,9 +3037,9 @@ paths:
         Unless a security group is globally-enabled, an admin must add it to a space for it to be visible for the org and space managers. Once it's visible, org and space managers can add it to additional spaces.
 
         __Permitted Roles:__
-        * Admin	
-        * Space Manager	(can bind visible security groups to their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
-        * Org Manager	(can bind visible security groups to their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Admin
+        * Space Manager (can bind visible security groups to their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager (can bind visible security groups to their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
       security:
         - uaa:
           - cloud_controller.admin
@@ -3058,9 +3058,9 @@ paths:
         Apps within this space must be restaged for these changes to take effect.
 
         __Permitted Roles:__
-        * Admin	
-        * Space Manager	(can unbind visible security groups from their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
-        * Org Manager	(can unbind visible security groups from their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Admin
+        * Space Manager (can unbind visible security groups from their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager (can unbind visible security groups from their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
       security:
         - uaa:
           - cloud_controller.admin
@@ -3079,11 +3079,11 @@ paths:
         __Permitted Roles:__
         * Admin
         * Global Auditor
-        * Org Manager	(can see globally-enabled security groups and groups associated with spaces in their managed organizations)
-        * Space Auditor	(can see globally-enabled security groups and groups associated with spaces where they have this role)
-        * Space Developer	(can see globally-enabled security groups and groups associated with spaces where they have this role)
-        * Space Manager	(can see globally-enabled security groups and groups associated with spaces where they have this role)
-        * Space Supporter	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Org Manager (can see globally-enabled security groups and groups associated with spaces in their managed organizations)
+        * Space Auditor (can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Developer (can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Manager (can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Supporter (can see globally-enabled security groups and groups associated with spaces where they have this role)
       security:
         - uaa:
           - cloud_controller.admin
@@ -3105,11 +3105,11 @@ paths:
         __Permitted Roles:__
         * Admin
         * Global Auditor
-        * Org Manager	(can see globally-enabled security groups and groups associated with spaces in their managed organizations)
-        * Space Auditor	(can see globally-enabled security groups and groups associated with spaces where they have this role)
-        * Space Developer	(can see globally-enabled security groups and groups associated with spaces where they have this role)
-        * Space Manager	(can see globally-enabled security groups and groups associated with spaces where they have this role)
-        * Space Supporter	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Org Manager (can see globally-enabled security groups and groups associated with spaces in their managed organizations)
+        * Space Auditor (can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Developer (can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Manager (can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Supporter (can see globally-enabled security groups and groups associated with spaces where they have this role)
       security:
         - uaa:
           - cloud_controller.admin
@@ -3129,10 +3129,10 @@ paths:
         This endpoint retrieves the service brokers the user has access to.
 
         __Permitted Roles:__
-        * Admin	
-        * Global Auditor	
+        * Admin
+        * Global Auditor
         * Space Developer (only space-scoped brokers)
-        * Space Supporter	(only space-scoped brokers)
+        * Space Supporter (only space-scoped brokers)
         * Others (will receive an empty list)
       security:
         - uaa:
@@ -3186,10 +3186,10 @@ paths:
         This endpoint retrieves the service broker by GUID.
 
         __Permitted Roles:__
-        * Admin	
-        * Global Auditor	
-        * Space Developer	(only space-scoped brokers)
-        * Space Supporter	(only space-scoped brokers)
+        * Admin
+        * Global Auditor
+        * Space Developer (only space-scoped brokers)
+        * Space Supporter (only space-scoped brokers)
       security:
         - uaa:
           - cloud_controller.admin
@@ -3249,7 +3249,7 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Space Developer	(only service offerings from space-scoped brokers)
+        * Space Developer (only service offerings from space-scoped brokers)
       security:
         - uaa:
           - cloud_controller.admin
@@ -3416,7 +3416,7 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-          
+
   /v3/service_plans/{guid}/visibility/{organization_guid}:
     delete:
       summary: Remove organization from a service plan visibility
@@ -3556,7 +3556,7 @@ paths:
     get:
       summary: Get parameters for a managed service instance
       description: |-
-        Queries the Service Broker for the parameters associated with this service instance. The broker catalog must have enabled the instances_retrievable feature for the Service Offering. 
+        Queries the Service Broker for the parameters associated with this service instance. The broker catalog must have enabled the instances_retrievable feature for the Service Offering.
 
         __Permitted Roles:__
         * Admin
@@ -3624,7 +3624,7 @@ paths:
           description: No Content
     post:
       summary: Share a service instance to other spaces
-      description: |- 
+      description: |-
         This endpoint shares the service instance with the specified spaces. In order to share into a space the requesting user must be a space developer in the target space.
 
         __Permitted Roles:__
@@ -4031,7 +4031,7 @@ paths:
       responses: #TODO
         "204":
           description: No Content
-    post: 
+    post:
       summary: Create a sidecar associated with an app
       description: |-
         __Permitted Roles:__
@@ -4406,13 +4406,13 @@ paths:
       summary: Get a space quota
       description: |-
         __Permitted Roles:__
-        * Admin	
-        * Global Auditor	
-        * Org Manager	(can only query space quotas owned by affiliated organizations)
-        * Space Auditor	(can only query space quotas applied to affiliated spaces)
-        * Space Developer	(can only query space quotas applied to affiliated spaces)
-        * Space Manager	(can only query space quotas applied to affiliated spaces)
-        * Space Supporter	(can only query space quotas applied to affiliated spaces)
+        * Admin
+        * Global Auditor
+        * Org Manager (can only query space quotas owned by affiliated organizations)
+        * Space Auditor (can only query space quotas applied to affiliated spaces)
+        * Space Developer (can only query space quotas applied to affiliated spaces)
+        * Space Manager (can only query space quotas applied to affiliated spaces)
+        * Space Supporter (can only query space quotas applied to affiliated spaces)
       security:
         - uaa:
           - cloud_controller.admin
@@ -4599,13 +4599,13 @@ paths:
         Retrieve a specific task. The command field may be excluded in the response based on the user’s role.
 
         __Permitted Roles:__
-        * Admin	
+        * Admin
         * Global Auditor (command field redacted)
-        * Org Manager	(command field redacted)
-        * Space Auditor	(command field redacted)
-        * Space Developer	
-        * Space Manager	(command field redacted)
-        * Space Supporter	(command field redacted)
+        * Org Manager (command field redacted)
+        * Space Auditor (command field redacted)
+        * Space Developer
+        * Space Manager (command field redacted)
+        * Space Supporter (command field redacted)
       security:
         - uaa:
           - cloud_controller.admin
@@ -4664,13 +4664,13 @@ paths:
         Retrieve tasks for an app the user has access to. The command field may be excluded in the response based on the user’s role.
 
         __Permitted Roles:__
-        * Admin	
+        * Admin
         * Global Auditor (command field redacted)
-        * Org Manager	(command field redacted)
-        * Space Auditor	(command field redacted)
-        * Space Developer	
-        * Space Manager	(command field redacted)
-        * Space Supporter	(command field redacted)
+        * Org Manager (command field redacted)
+        * Space Auditor (command field redacted)
+        * Space Developer
+        * Space Manager (command field redacted)
+        * Space Supporter (command field redacted)
       security:
         - uaa:
           - cloud_controller.admin
@@ -4704,15 +4704,15 @@ paths:
         Retrieve all users that the current user can see.
 
         __Permitted Roles:__
-        * Admin	
-        * Global Auditor	
-        * Org Auditor	(can only view users affiliated with their org)
-        * Org Billing Manager	(can only view users affiliated with their org)
-        * Org Manager	(can only view users affiliated with their org)
-        * Space Auditor	(can only view users affiliated with their org)
-        * Space Developer	(can only view users affiliated with their org)
-        * Space Manager	(can only view users affiliated with their org)
-        * Space Supporter	(can only view users affiliated with their org)
+        * Admin
+        * Global Auditor
+        * Org Auditor (can only view users affiliated with their org)
+        * Org Billing Manager (can only view users affiliated with their org)
+        * Org Manager (can only view users affiliated with their org)
+        * Space Auditor (can only view users affiliated with their org)
+        * Space Developer (can only view users affiliated with their org)
+        * Space Manager (can only view users affiliated with their org)
+        * Space Supporter (can only view users affiliated with their org)
       security:
         - uaa:
           - cloud_controller.admin
@@ -4761,15 +4761,15 @@ paths:
       summary: Get a user
       description: |-
         __Permitted Roles:__
-        * Admin	
-        * Global Auditor	
-        * Org Auditor	(can only view users affiliated with their org)
-        * Org Billing Manager	(can only view users affiliated with their org)
-        * Org Manager	(can only view users affiliated with their org)
-        * Space Auditor	(can only view users affiliated with their org)
-        * Space Developer	(can only view users affiliated with their org)
-        * Space Manager	(can only view users affiliated with their org)
-        * Space Supporter	(can only view users affiliated with their org)
+        * Admin
+        * Global Auditor
+        * Org Auditor (can only view users affiliated with their org)
+        * Org Billing Manager (can only view users affiliated with their org)
+        * Org Manager (can only view users affiliated with their org)
+        * Space Auditor (can only view users affiliated with their org)
+        * Space Developer (can only view users affiliated with their org)
+        * Space Manager (can only view users affiliated with their org)
+        * Space Supporter (can only view users affiliated with their org)
       security:
         - uaa:
           - cloud_controller.admin
