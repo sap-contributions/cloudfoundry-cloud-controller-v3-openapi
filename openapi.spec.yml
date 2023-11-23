@@ -103,7 +103,7 @@ paths:
       description: |-
         This endpoint will delete all of the existing buildpack caches in the blobstore. The buildpack cache is used during staging by buildpacks as a way to cache certain resources, e.g. downloaded Ruby gems. An admin who wants to decrease the size of their blobstore could use this endpoint to delete unnecessary blobs.
 
-        __Permitted roles__:
+        __Permitted Roles:__:
           * Admin
       security:
         - uaa:
@@ -3264,7 +3264,7 @@ paths:
       description: |-
         This endpoint retrieves the service offering by GUID.
 
-        __Permitted roles:__
+        __Permitted Roles:__
         * All Roles
       security:
         - uaa:
@@ -3282,7 +3282,7 @@ paths:
       description: |-
         This endpoint updates a service offering with labels and annotations.
 
-        __Permitted roles:__
+        __Permitted Roles:__
         * All Roles
       security:
         - uaa:
