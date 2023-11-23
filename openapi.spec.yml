@@ -5801,6 +5801,91 @@ components:
             cloud_controller.update_build_state: This scope allows its bearer to update the state of a build; currently only used when updating builds
             cloud_controller_service_permissions.read: This scope provides read only access for service instance permissions
   schemas:
+    ErrorObject:
+      type: object
+      description: |-
+        Clients should use the code and title fields for programmatically handling specific errors. The message in the detail field is subject to change over time.
+      properties:
+        code:
+          type: integer
+          description: A numeric code for this error
+        title:
+          type: string
+          description: Name of the error
+        detail:
+          type: string
+          description: Detailed description of the error
+      required: [code, title]
+    LinkObject:
+      type: object
+      properties:
+        href:
+          type: string
+          description: The absolute URL
+        method:
+          type: string
+          description: An optional field containing the HTTP method to be used when following the URL
+      required:
+        - href
+    PaginationObject:
+      type: object
+      description: |-
+        Any request that can return multiple resources will be paginated and contain a pagination object and list of resources. Requests for multiple resources can use page, per_page, and order_by in addition to filters specific to the endpoint.
+      properties:
+        total_results:
+          type: integer
+          description: Total number of resources for all pages
+        total_pages:
+          type: integer
+          description: Total number of pages
+        first:
+          $ref: '#/components/schemas/LinkObject'
+          description: Link to the first page
+        last:
+          $ref: '#/components/schemas/LinkObject'
+          description: Link to the last page
+        next:
+          $ref: '#/components/schemas/LinkObject'
+          description: Link to the next page
+        previous:
+          $ref: '#/components/schemas/LinkObject'
+          description: Link to the previous page
+      required:
+        - total_results
+        - total_pages
+        - first
+        - last
+        - next
+        - previous
+    RelationshipObject:
+      type: object
+      description: |-
+        The relationship object is a key-value pair that uniquely identifies a resource. In practice this is almost always the guid of a resource.
+      properties:
+        guid:
+          type: string
+          description: The unique identifier for the related resource
+      required: [guid]
+    ToOneRelationshipObject:
+      type: object
+      description: |-
+        Some relationships relate a resource to exactly one other resource. For example an app can belong to only one space.
+      properties:
+        data:
+          $ref: '#/components/schemas/RelationshipObject'
+          description: A single relationship
+      required: [data]
+    ToManyRelationshipObject:
+      type: object
+      description: |-
+        Some relationships relate a resource to several other resources. For example, an isolation segment can be entitled to multiple organizations.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationshipObject'
+          description: An array of multiple relationships
+      required: [data]
     AppFeatureName:
       type: string
       enum: [ssh, revisions]
