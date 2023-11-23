@@ -14,7 +14,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 3.151.0
 servers:
-  - url: https://petstore3.swagger.io/api/v3
+  - url: https://api.cf.eu12.hana.ondemand.com/
 tags:
   - name: Admin
     description: Endpoints specific to administrative users.
@@ -5788,10 +5788,15 @@ components:
   securitySchemes:
     uaa:
       type: oauth2
-      description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
+      description: |-
+        Authenticate with the Cloud Foundry UAA service, using the Resource Owner Password flow.
+
+        If two-factor authentication (2FA) is activated on the account, you have to enter your password followed by a one-time TOTP (Time-based One-Time Password) token.
+
+        *Hint*: In case you don't have dedicated client credentials at hand, you can use the defaults of the cloud foundry cli. Just enter `cf` as `client_id`, leave `client_secret` blank.
       flows:
         password:
-          authorizationUrl: https://api.example.com/oauth2/authorize
+          authorizationUrl: https://uaa.cf.eu12.hana.ondemand.com/oauth/token
           scopes:
             cloud_controller.admin: This scope provides read and write access to all resources
             cloud_controller.admin_read_only: This scope provides read only access to all resources
