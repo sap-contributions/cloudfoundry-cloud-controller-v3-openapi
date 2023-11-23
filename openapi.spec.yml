@@ -170,7 +170,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -209,7 +208,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -233,7 +231,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -277,7 +274,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Space Developer
         * Space Supporter (`system_env_json` redacted)
       security:
@@ -298,7 +294,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Space Developer
         * Space Supporter
       security:
@@ -337,7 +332,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -363,7 +357,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -444,7 +437,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -468,7 +460,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -530,7 +521,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
       security:
         - uaa:
@@ -566,7 +556,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Manager
@@ -591,12 +580,11 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
-        * Org Auditor (Cannot see events which occurred in orgs that the user does not belong to)
-        * Space Auditor (Cannot see events which occurred in orgs that the user does not belong to)
-        * Space Developer (Cannot see events which occurred in orgs that the user does not belong to)
-        * Space Supporter (Cannot see events which occurred in orgs that the user does not belong to)
+        * Org Auditor (cannot see events which occurred in orgs that the user does not belong to)
+        * Space Auditor (cannot see events which occurred in orgs that the user does not belong to)
+        * Space Developer (cannot see events which occurred in orgs that the user does not belong to)
+        * Space Supporter (cannot see events which occurred in orgs that the user does not belong to)
       security:
         - uaa:
           - cloud_controller.admin
@@ -649,7 +637,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -691,7 +678,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -843,7 +829,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -948,7 +933,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Billing Manager (can only view domains without an organization relationship)
@@ -1076,7 +1060,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor (some fields are redacted)
         * Org Manager (some fields are redacted)
         * Space Auditor (some fields are redacted)
@@ -1121,7 +1104,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -1164,7 +1146,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -1282,7 +1263,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
       security:
         - uaa:
@@ -1381,7 +1361,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Billing Manager
@@ -1492,7 +1471,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Space Developer
       security:
         - uaa:
@@ -1656,7 +1634,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Billing Manager (can only view domains without an organization relationship)
@@ -1761,7 +1738,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager (response will only include guids of managed * organizations)
         * Org Auditor (response will only include guids of audited organizations)
@@ -1819,7 +1795,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         Org Manager (response will only include guids of managed organizations)
         * Org Auditor (response will only include guids of audited organizations)
@@ -1925,7 +1900,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -1966,7 +1940,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -2035,7 +2008,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -2079,7 +2051,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor (some fields are redacted)
         * Org Manager (some fields are redacted)
         * Space Auditor (some fields are redacted)
@@ -2159,7 +2130,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor (some fields are redacted)
         * Org Manager (some fields are redacted)
         * Space Auditor (some fields are redacted)
@@ -2185,7 +2155,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -2210,7 +2179,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor (some fields are redacted)
         * Org Manager (some fields are redacted)
         * Space Auditor (some fields are redacted)
@@ -2277,7 +2245,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor (some fields are redacted)
         * Org Manager (some fields are redacted)
         * Space Auditor (some fields are redacted)
@@ -2319,7 +2286,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -2379,7 +2345,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -2406,7 +2371,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
@@ -2496,7 +2460,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager (can see roles in managed organizations or spaces in those organizations)
         * Org Auditor (can only see organization roles in audited organizations)
@@ -2573,7 +2536,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Manager
@@ -2616,7 +2578,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Manager
@@ -2718,7 +2679,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Manager
@@ -2804,7 +2764,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Manager
@@ -2832,7 +2791,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor
         * Org Billing Manager (can only check if routes exist for a domain without an organization relationship
@@ -2887,7 +2845,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor (can see globally enabled security groups)
         * Org Billing Manager (Can see globally enabled security groups)
@@ -2939,7 +2896,6 @@ paths:
       description: |-
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Auditor (can see globally enabled security groups)
         * Org Billing Manager (Can see globally enabled security groups)
@@ -4055,7 +4011,6 @@ paths:
 
         __Permitted Roles:__
         * Admin
-        * Admin Read-Only
         * Global Auditor
         * Org Manager
         * Space Auditor
