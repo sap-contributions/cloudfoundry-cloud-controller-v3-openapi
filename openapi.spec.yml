@@ -555,8 +555,7 @@ paths:
       - in: path
         name: name
         schema:
-          type: string
-          enum: [ssh, revisions]
+          $ref: '#/components/schemas/AppFeatureName'
         required: true
         description: A supported app feature
     get:
@@ -1458,25 +1457,7 @@ paths:
       - in: path
         name: name
         schema:
-          type: string
-          enum:
-            - app_bits_upload
-            - app_scaling
-            - diego_docker
-            - env_var_visibility
-            - hide_marketplace_from_unauthenticated_users
-            - private_domain_creation
-            - resource_matching
-            - route_creation
-            - route_sharing (experimental)
-            - service_instance_creation
-            - service_instance_sharing
-            - set_roles_by_username
-            - space_developer_env_var_visibility
-            - space_scoped_private_broker_creation
-            - task_creation
-            - unset_roles_by_username
-            - user_org_creation
+          $ref: '#/components/schemas/FeatureFlagName'
         required: true
         description: The name of the feature flag
     get:
@@ -5235,8 +5216,7 @@ paths:
       - in: path
         name: name
         schema:
-          type: string
-          enum: [ssh]
+          $ref: '#/components/schemas/SpaceFeatureName'
         required: true
         description: Name of the space feature
     get:
@@ -5821,6 +5801,32 @@ components:
             cloud_controller.update_build_state: This scope allows its bearer to update the state of a build; currently only used when updating builds
             cloud_controller_service_permissions.read: This scope provides read only access for service instance permissions
   schemas:
+    AppFeatureName:
+      type: string
+      enum: [ssh, revisions]
+    SpaceFeatureName:
+      type: string
+      enum: [ssh]
+    FeatureFlagName:
+      type: string
+      enum:
+        - app_bits_upload
+        - app_scaling
+        - diego_docker
+        - env_var_visibility
+        - hide_marketplace_from_unauthenticated_users
+        - private_domain_creation
+        - resource_matching
+        - route_creation
+        - route_sharing (experimental)
+        - service_instance_creation
+        - service_instance_sharing
+        - set_roles_by_username
+        - space_developer_env_var_visibility
+        - space_scoped_private_broker_creation
+        - task_creation
+        - unset_roles_by_username
+        - user_org_creation
     UUID:
       type: string
       format: uuid
