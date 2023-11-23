@@ -5796,7 +5796,7 @@ components:
         *Hint*: In case you don't have dedicated client credentials at hand, you can use the defaults of the cloud foundry cli. Just enter `cf` as `client_id`, leave `client_secret` blank.
       flows:
         password:
-          authorizationUrl: https://uaa.cf.eu12.hana.ondemand.com/oauth/token
+          tokenUrl: https://uaa.cf.eu12.hana.ondemand.com/oauth/token
           scopes:
             cloud_controller.admin: This scope provides read and write access to all resources
             cloud_controller.admin_read_only: This scope provides read only access to all resources
