@@ -1,0 +1,4814 @@
+openapi: 3.1.0
+info:
+  title: Cloud Foundry V3 API
+  description: |-
+    Welcome to the Cloud Foundry V3 API docs! Version 3 adds support for several key features:
+
+    - Running one-off tasks on Cloud Foundry
+    - Applications consisting of several processes via a Procfile
+    - Direct access to application packages and droplets
+    - Changing application source code without stopping the app via deployments
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 3.151.0
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+tags:
+  - name: Admin
+    description: Endpoints specific to administrative users.
+  - name: Apps
+    description: Endpoints related to application management and configuration.
+  - name: App Features
+    description: Endpoints for managing app functionalities.
+  - name: App Usage Events
+    description: Endpoints for tracking changes in application usage.
+  - name: Audit Events
+    description: Endpoints for monitoring user and system actions on resources.
+  - name: Builds
+    description: Endpoints for managing the staging process of application packages.
+  - name: Buildpacks
+    description: Endpoints related to buildpacks, which are used for transforming packages into executable applications.
+  - name: Deployments
+    description: Endpoints for managing application updates with zero downtime.
+  - name: Domains
+    description: Endpoints for managing domain names used for application routes.
+  - name: Droplets
+    description: Endpoints related to droplets, which are the results of staging an application package.
+  - name: Environment Variable Groups
+    description: Endpoints for managing environment variables across all apps.
+  - name: Feature Flags
+    description: Endpoints for enabling or disabling API functionalities.
+  - name: Info
+    description: Endpoints for retrieving Cloud Controller configuration information.
+  - name: Isolation Segments
+    description: Endpoints for managing dedicated resource pools for apps.
+  - name: Jobs
+    description: Endpoints related to asynchronous actions performed by the platform.
+  - name: Manifests
+    description: Endpoints for applying bulk configurations to apps and their processes.
+  - name: Organizations
+    description: Endpoints related to development accounts owned and used by collaborators.
+  - name: Organization Quotas
+    description: Endpoints for managing named sets of resource usage quotas.
+  - name: Packages
+    description: Endpoints related to application source code.
+  - name: Processes
+    description: Endpoints for defining runnable units of an app.
+  - name: Resource Matches
+    description: Endpoint for matching resource SHA-1/file size pairs against the Cloud Controller cache.
+  - name: Revisions
+    description: Endpoints related to specific versions of application code and configuration.
+  - name: Routes
+    description: Endpoints for managing network traffic distribution based on various matching criteria.
+  - name: Roles
+    description: Endpoints for controlling access to resources in organizations and spaces.
+  - name: Security Groups
+    description: Endpoints for managing collections of egress traffic rules.
+  - name: Service Brokers
+    description: Endpoints for managing the lifecycle of services.
+  - name: Service Offerings
+    description: Endpoints related to services offered by service brokers.
+  - name: Service Plans
+    description: Endpoints related to service plans offered by a service offering.
+  - name: Service Plan Visibility
+    description: Endpoints for managing access to given service plans and their service offering.
+  - name: Service Instances
+    description: Endpoints for managing instantiations of a service.
+  - name: Service Credential Bindings
+    description: Endpoints for making service instance connection details available.
+  - name: Service Route Bindings
+    description: Endpoints for managing relations between a service instance and a route.
+  - name: Service Usage Events
+    description: Endpoints for tracking changes in service usage.
+  - name: Sidecars
+    description: Endpoints for managing additional operating system processes run in the same container as a process.
+  - name: Spaces
+    description: Endpoints for managing spaces.
+  - name: Space Features
+    description: Endpoints for managing optional capabilities of a space.
+  - name: Space Quotas
+    description: Endpoints for managing named sets of quotas within an organization.
+  - name: Stacks
+    description: Endpoints for managing stacks that apps will execute in.
+  - name: Tasks
+    description: Endpoints for managing one-off jobs that are intended to perform a task, stop, and be cleaned up, freeing up resources.
+  - name: Users
+    description: Endpoints for managing users. 
+  - name: Experimental
+paths:
+  /v3/admin/actions/clear_buildpack_cache:
+    post:
+      description: |- 
+        This endpoint will delete all of the existing buildpack caches in the blobstore. The buildpack cache is used during staging by buildpacks as a way to cache certain resources, e.g. downloaded Ruby gems. An admin who wants to decrease the size of their blobstore could use this endpoint to delete unnecessary blobs.
+
+        __Permitted roles__:
+          * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Admin
+      responses: #TODO
+        "202":
+          description: No Content
+  /v3/apps:
+    get:
+      summary: List apps
+      description: |-
+        Retrieve all apps the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+        "422":
+          description: The given app name is already taken in the targeted space
+  /v3/apps/{guid}:
+    delete: 
+      summary: Delete an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+    get: #TODO
+      summary: Get an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses:
+        "204":
+          description: No Content
+    patch: 
+      summary: Update an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/droplets/current:
+    get:
+      summary: Get current droplet
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/relationships/current_droplet:
+    get:
+      summary: Get current droplet association for an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Set current droplet
+      description: |-
+        Set the current droplet for an app. The current droplet is the droplet that the app will use when running.
+        
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/env:
+    get:
+      summary: Get environment for an app
+      description: |-
+        Retrieve the environment variables that will be provided to an app at runtime. It will include environment variables for Environment Variable Groups and Service Bindings.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Space Developer
+        * Space Supporter (`system_env_json` redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/environment_variables:
+    get:
+      summary: Get environment variables for an app
+      description: |-
+        Retrieve the environment variables that are associated with the given app. For the entire list of environment variables that will be available to the app at runtime, see the env endpoint.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update environment variables for an app
+      description: |-
+        Update the environment variables associated with the given app. The variables given in the request will be merged with the existing app environment variables. Any requested variables with a value of null will be removed from the app. Environment variable names may not start with `VCAP_.PORT` is not a valid environment variable.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/permissions:
+    get:
+      summary: Get permissions for an app
+      description: |-
+        Get the current user’s permissions for the given app. If a user can see an app, then they can see its basic data. Only admin, read-only admins, and space developers can read sensitive data.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/ssh_enabled:
+    get:
+      summary: Get SSH enabled for an app
+      description: |-
+        Returns if an application’s runtime environment will accept ssh connections. If ssh is disabled, the reason field will describe whether it is disabled globally, at the space level, or at the app level.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/actions/start:
+    post:
+      summary: Start an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/actions/stop:
+    post:
+      summary: Stop an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/actions/restart:
+    post:
+      summary: Restart an app
+      description: |-
+        This endpoint will synchronously stop and start an application. Unlike the start and stop actions, this endpoint will error if the app is not successfully stopped in the runtime.
+
+        For restarting applications without downtime, see the deployments resource.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/features:
+    get: #TODO
+      summary: List app features
+      description: |-
+        This endpoint retrieves the list of features for the specified app.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - App Features
+      responses:
+        "204":
+          description: No Content
+  /v3/apps/{guid}/features/{name}:
+    get:
+      summary: Get an app feature
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - App Features
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update an app feature
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - App Features
+      responses: #TODO
+        "204":
+          description: No Content
+
+  /v3/app_usage_events:
+    get:
+      summary: List app usage events
+      description: |-
+        Retrieve all app usage events the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - App Usage Events
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/app_usage_events/{guid}:
+    get:
+      summary: Get an app usage event
+      description: |-
+        Retrieve an app usage event.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+      tags:
+        - App Usage Events
+      responses: # TODO
+        "204":
+          description: No Content
+  /v3/app_usage_events/actions/destructively_purge_all_and_reseed:
+    post:
+      summary: Purge and seed app usage events
+      description: |-
+        Destroys all existing events. Populates new usage events, one for each started app. All populated events will have a created_at value of current time. There is the potential race condition if apps are currently being started, stopped, or scaled. The seeded usage events will have the same guid as the app.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - App Usage Events
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/audit_events:
+    get:
+      summary: List audit events
+      description: |-
+        Retrieve all audit events the user has access to.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Audit Events
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/audit_events/{guid}:
+    get:
+      summary: Get an audit event
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor	(Cannot see events which occurred in orgs that the user does not belong to)
+        * Space Auditor	(Cannot see events which occurred in orgs that the user does not belong to)
+        * Space Developer	(Cannot see events which occurred in orgs that the user does not belong to)
+        * Space Supporter (Cannot see events which occurred in orgs that the user does not belong to)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Audit Events
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/builds:
+    get:
+      summary: List builds
+      description: |-
+        Retrieve all builds the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Builds
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a build
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Builds
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/builds/{guid}:
+    get:
+      summary: Get a build
+      description: |- 
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Builds
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a build
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Builds
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/builds:
+    get:
+      summary: List builds for an app
+      description: |-
+        Retrieve all builds for the app.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Builds
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/buildpacks:
+    get:
+      summary: List buildpacks
+      description: |-
+        Retrieve all buildpacks the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Buildpacks
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a buildpack
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Buildpacks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/buildpacks/{guid}:
+    delete:
+      summary: Delete a buildpack
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Buildpacks
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a buildpack
+      description: |-
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Buildpacks
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a buildpack
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Buildpacks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/buildpacks/{guid}/upload:
+    post: 
+      summary: Upload buildpack bits
+      description: |-
+        Upload a zip file containing a Cloud Foundry compatible buildpack. The file must be sent as part of a multi-part form.
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Buildpacks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/deployments:
+    get:
+      summary: List deployments
+      description: |-
+        Retrieve all deployments the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Deployments
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a deployment
+      description: |- 
+        When you create a new deployment you can either provide a specific droplet or revision to deploy. If no revision or droplet is provided, the droplet associated with the app is deployed.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Deployments
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/deployments/{guid}:
+    get:
+      summary: Get a deployment
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Deployments
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a deployment
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Deployments
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/deployments/{guid}/actions/cancel:
+    post:
+      summary: Cancel a deployment
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Deployments 
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/domains:
+    get:
+      summary: List domains
+      description: |-
+        Retrieve all domains the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Domains
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a domain
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (when an organization relationship is provided)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Domains
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/domains/{guid}:
+    delete:
+      summary: Delete a domain
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Domains
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a domain
+      description: |- 
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Billing Manager (can only view domains without an organization relationship)
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Domains
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a domain
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (if domain is scoped to organization managed by the org manager)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Domains
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/domains/{guid}/relationships/shared_organizations:
+    post:
+      summary: Share a domain
+      description: |-
+        This endpoint shares an organization-scoped domain to other organizations specified by a list of organization guids. This will allow any of the other organizations to use the organization-scoped domain.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Domains
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/domains/{guid}/relationships/shared_organizations/{org_guid}:
+    delete:
+      summary: Unshare a domain
+      description: |-
+        This endpoint removes an organization from the list of organizations an organization-scoped domain is shared with. This prevents the organization from using the organization-scoped domain.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (can be in either the domain's owning organization or the organization it has been shared to)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Domains
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/droplets:
+    get:
+      summary: List droplets
+      description: |-
+        Retrieve all droplets the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create/Copy a droplet
+      description: |-
+        This endpoint is only for creating or copying a droplet without a package. To create a droplet based on a package, see Create a build.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/droplets/{guid}:
+    delete:
+      summary: Delete a droplet
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a droplet
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor (some fields are redacted)
+        * Org Manager (some fields are redacted)
+        * Space Auditor (some fields are redacted)
+        * Space Developer
+        * Space Manager (some fields are redacted)
+        * Space Supporter (some fields are redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a droplet
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Build State Updater
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+          - cloud_controller.update_build_state
+      tags:
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/droplets/{guid}/download:
+    get:
+      summary: Download droplet bits
+      description: |-
+        Download a gzip compressed tarball file containing a Cloud Foundry compatible droplet. When using a remote blobstore, such as AWS, the response is a redirect to the actual location of the bits. If the client is automatically following redirects, then the OAuth token that was used to communicate with Cloud Controller will be relayed on the new redirect request. Some blobstores may reject the request in that case. Clients may need to follow the redirect without including the OAuth token.
+
+        Only droplets that are in the STAGED state and have lifecycle type buildpack can be downloaded.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/droplets/{guid}/upload:
+    post:
+      summary: Upload droplet bits
+      description: |-
+        Upload a gzip compressed tarball file containing a Cloud Foundry compatible droplet. The file must be sent as part of a multi-part form.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/droplets:
+    get: 
+      summary: List droplets for an app
+      description: |-
+        Retrieve a list of droplets belonging to an app.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Droplets
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/environment_variable_groups/{name}:
+    get:
+      summary: Get an environment variable group
+      description: |-
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Environment Variable Groups
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update environment variable group
+      description: |-
+        Update the environment variable group. The variables given in the request will be merged with the existing environment variable group. Any requested variables with a value of null will be removed from the group. Environment variable names may not start with VCAP_. PORT is not a valid environment variable.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Environment Variable Groups
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/feature_flags:
+    get: 
+      summary: List feature flags
+      description: |-
+        Retrieve all feature_flags.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Feature Flags
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/feature_flags/{name}:
+    get:
+      summary: Get a feature flag
+      description: |-
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Feature Flags
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a feature flag
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Feature Flags
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/info:
+    get:
+      summary: Get platform info
+      description: |-
+        No authentication required.
+      tags:
+        - Info
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/info/usage_summary:
+    get:
+      summary: Get platform usage summary
+      description: |-
+        This endpoint retrieves a high-level summary of usage across the entire Cloud Foundry installation.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+      tags:
+        - Info
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/isolation_segments:
+    get:
+      summary: List isolation segments
+      description: |-
+        Retrieves all isolation segments to which the user has access. For admin, this is all the isolation segments in the system. For anyone else, this is the isolation segments in the allowed list for any organization to which the user belongs.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create an isolation segment
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/isolation_segments/{guid}:
+    delete:
+      summary: Delete an isolation segment
+      description: |-
+        An isolation segment cannot be deleted if it is entitled to any organization.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get an isolation segment
+      description: |-
+        Retrieve an isolation segment to which the user has access. For admin, this is any isolation segment in the system. For anyone else, this is an isolation segment in the allowed list for any organization to which the user belongs.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update an isolation segment
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/isolation_segments/{guid}/organizations:
+    get:
+      summary: List organizations for isolation segment
+      description: |-
+        Retrieve the organizations entitled to the isolation segment. Return only the organizations the user has access to.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Billing Manager
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Isolation Segments
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/isolation_segments/{guid}/relationships/organizations:
+    get:
+      summary: List organizations relationship
+      description: |-
+        This endpoint lists the organizations entitled for the isolation segment. For an Admin, this will list all entitled organizations in the system. For any other user, this will list only the entitled organizations to which the user belongs.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Entitle organizations for an isolation segment
+      description: |-
+        This endpoint entitles the specified organizations for the isolation segment. In the case where the specified isolation segment is the system-wide shared segment, and if an organization is not already entitled for any other isolation segment, then the shared isolation segment automatically gets assigned as the default for that organization.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/isolation_segments/{guid}/relationships/organizations/{org_guid}:
+    delete:
+      summary: Revoke entitlement to isolation segment for an organization
+      description: |-
+        This endpoint revokes the entitlement for the specified organization to the isolation segment. If the isolation segment is assigned to a space within an organization, the entitlement cannot be revoked. If the isolation segment is the organization’s default, the entitlement cannot be revoked.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/isolation_segments/{guid}/relationships/spaces:
+    get:
+      summary: List spaces relationship
+      description: |-
+        This endpoint lists the spaces to which the isolation segment is assigned. For an Admin, this will list all associated spaces in the system. For an org manager, this will list only those associated spaces belonging to orgs for which the user is a manager. For any other user, this will list only those associated spaces to which the user has access.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Isolation Segments
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/jobs/{guid}:
+    get:
+      summary: Get a job
+      description: |-
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Jobs
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/manifest:
+    get:
+      summary: Generate a manifest for an app
+      description: |-
+        Generate a manifest for an app and its underlying processes.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+        - Manifests
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/actions/apply_manifest:
+    post:
+      summary: Apply a manifest to a space
+      description: |-
+        Apply changes specified in a manifest to the named apps and their underlying processes. The apps must reside in the space. These changes are additive and will not modify any unspecified properties or remove any existing environment variables, routes, or services.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Manifests
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/manifest_diff:
+    post:
+      summary: Create a manifest diff for a space (experimental)
+      description: |-
+        This endpoint returns a JSON representation of the difference between the provided manifest and the current state of a space.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developers
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Experimental
+        - Manifests
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organizations:
+    get:
+      summary: List organizations
+      description: |-
+        Retrieve all organizations the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create an organization
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Any with write access (if feature flag `user_org_creation` is set)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organizations/{guid}:
+    delete:
+      summary: Delete an organization
+      description: |-
+        When an organization is deleted, user roles associated with the organization will also be deleted.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get an organization
+      description: |-
+        This endpoint retrieves the specified organization object.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update an organization
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organizations/{guid}/domains:
+    get:
+      summary: List domains for an organization
+      description: |-
+        Retrieve all domains available in an organization for the current user. This will return unscoped domains (those without an owning organization), domains that are scoped to the given organization (owned by the given organization), and domains that have been shared with the organization.
+
+        To retrieve the default domain for an organization, use the get default domain endpoint.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Domains
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organizations/{guid}/domains/default:
+    get:
+      summary: Get an organizations default domain
+      description: |-
+        Retrieve the default domain for a given organization.
+
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor	
+        * Org Auditor	
+        * Org Billing Manager	(can only view domains without an organization relationship)
+        * Org Manager	
+        * Space Auditor	
+        * Space Developer	
+        * Space Manager	
+        * Space Supporter	
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Domains
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organizations/{guid}/relationships/default_isolation_segment:
+    get:
+      summary: Get an organizations default isolation segment
+      description: |-
+        Retrieve the default isolation segment for a given organization.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Isolation Segments
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Assign default isolation segment to an organization
+      description: |-
+        Set the default isolation segment for a given organization. Only isolation segments that are entitled to the organization are eligible to be the default isolation segment.
+      
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Isolation Segments
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organizations/{guid}/usage_summary:
+    get:
+      summary: Get usage summary for an organization
+      description: |-
+        This endpoint retrieves the specified organization object’s memory and app instance usage summary.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organizations/{guid}/users:
+    get:
+      summary: List users of an organization
+      description: |-
+        Retrieve all users with a role in the specified organization.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organization_quotas:
+    get:
+      summary: List organization quotas
+      description: |-
+        This endpoint lists all organization quota resources.
+
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor	
+        * Org Manager	(response will only include guids of managed * organizations)
+        * Org Auditor	(response will only include guids of audited organizations)
+        * Org Billing Manager	(response will only include guids of billing-managed organizations)
+        * Space Auditor	(response will only include guids of parent organizations)
+        * Space Developer	(response will only include guids of parent organizations)
+        * Space Manager	(response will only include guids of parent organizations)
+        * Space Supporter	(response will only include guids of parent organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Organization Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create an organization quota
+      description: |-
+        This endpoint creates a new organization quota, but does not assign it to a specific organization unless an organization GUID is provided in the relationships.organizations parameter.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Organization Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organization_quotas/{guid}:
+    delete:
+      summary: Delete an organization quota
+      description: |-
+        Organization quotas cannot be deleted when applied to any organizations.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Organization Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get an organization quota
+      description: |-
+        This endpoint gets an individual organization quota resource.
+
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor	
+        Org Manager	(response will only include guids of managed organizations)
+        * Org Auditor	(response will only include guids of audited organizations)
+        * Org Billing Manager	(response will only include guids of billing-managed organizations)
+        * Space Auditor	(response will only include guids of parent organizations)
+        * Space Developer	(response will only include guids of parent organizations)
+        * Space Manager	(response will only include guids of parent organizations)
+        * Space Supporter	(response will only include guids of parent organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Organization Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update an organization quota
+      description: |-
+        This endpoint will only update the parameters specified in the request body. Any unspecified parameters will retain their existing values.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Organization Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/organization_quotas/{guid}/relationships/organizations:
+    post:
+      summary: Apply an organization quota to an organization
+      description: |-
+        This endpoint applies an organization quota to one or more organizations.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Organization Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/packages:
+    get:
+      summary: List packages
+      description: |-
+        Retrieve all packages the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create/Copy a package
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/packages/{guid}:
+    delete:
+      summary: Delete a package
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a package
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a package
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/packages/{guid}/droplets:
+    get:
+      summary: List droplets for a package
+      description: |-
+        Retrieve a list of droplets belonging to a package.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Droplets
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/packages/{guid}/upload:
+    post:
+      summary: Upload package bits
+      description: |-
+        This upload endpoint takes a multi-part form requests for packages of type bits. The request requires either a .zip file uploaded under the bits field or a list of resource match objects under the resources field. These field may be used together.
+
+        The resources field in the request accepts the v2 resources object format.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/packages/{guid}/download:
+    get:
+      summary: Download package bits
+      description: |-
+        This endpoint downloads the bits of an existing package.
+
+        When using a remote blobstore, such as AWS, the response is a redirect to the actual location of the bits. If the client is automatically following redirects, then the OAuth token that was used to communicate with Cloud Controller will be replayed on the new redirect request. Some blobstores may reject the request in that case. Clients may need to follow the redirect without including the OAuth token.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/packages:
+    get:
+      summary: List packages for an app
+      description: |-
+        Retrieve packages for an app that the user has access to.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Packages
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/processes:
+    get: 
+      summary: List processes
+      description: |-
+        Retrieve all processes the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/processes/{guid}:
+    get: 
+      summary: Get a process
+      description: |-
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor (some fields are redacted)
+        * Org Manager	(some fields are redacted)
+        * Space Auditor	(some fields are redacted)
+        * Space Developer	
+        * Space Manager	(some fields are redacted)
+        * Space Supporter	(some fields are redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a process
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/processes/{guid}/actions/scale:
+    post:
+      summary: Scale a process
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/processes/{guid}/instances/{index}:
+    delete:
+      summary: Terminate a process instance
+      description: |-
+        Terminate an instance of a specific process. Health management will eventually restart the instance.
+
+        This allows a user to stop a single misbehaving instance of a process.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/processes/{guid}/stats:
+    get:
+      summary: Get stats for a process
+      description: |-
+        Process stats are objects that represent the individual instances of a process.
+
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor (some fields are redacted)
+        * Org Manager (some fields are redacted)
+        * Space Auditor	(some fields are redacted)
+        * Space Developer	
+        * Space Manager	(some fields are redacted)
+        * Space Supporter	(some fields are redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/processes:
+    get:
+      summary: List processes for app
+      description: |-
+        Retrieves all processes belonging to an app.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/processes/{type}:
+    get: #TODO
+      summary: Get a process of an app
+      description: |-
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor (some fields are redacted)
+        * Org Manager	(some fields are redacted)
+        * Space Auditor	(some fields are redacted)
+        * Space Developer	
+        * Space Manager	(some fields are redacted)
+        * Space Supporter	(some fields are redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/processes/{type}/actions/scale:
+    post:
+      summary: Scale a process of an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/processes/{type}/instances/{index}:
+    delete:
+      summary: Terminate a process instance of an app
+      description: |-
+        Terminate an instance of a specific process. Health management will eventually restart the instance.
+
+        This allows a user to stop a single misbehaving instance of a process.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/processes/{type}/stats:
+    get:
+      summary: Get stats for a process of an app
+      description: |-
+        Process stats are objects that represent the individual instances of a process.
+
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor (some fields are redacted)
+        * Org Manager (some fields are redacted)
+        * Space Auditor	(some fields are redacted)
+        * Space Developer	
+        * Space Manager	(some fields are redacted)
+        * Space Supporter	(some fields are redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Processes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/resource_matches:
+    post:
+      summary: Create a resource match
+      description: |-
+        This endpoint returns a list of cached resources from the input list.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Resource Matches
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/revisions/{guid}:
+    get:
+      summary: Get a revision
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Revisions
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a revision
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Revisions
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/revisions/{guid}/environment_variables:
+    get:
+      summary: Get environment variables for a revision
+      description: |-
+        Retrieve the environment variables that are associated with the revision.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Revisions
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/revisions:
+    get:
+      summary: List revisions for an app
+      description: |-
+        Retrieve revisions for an app the user has access to.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Revisions
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/revisions/deployed:
+    get:
+      summary: List deployed revisions for an app
+      description: |-
+        Retrieve deployed revisions for an app the user has access to. Deployed revisions are revisions that are linked to started processes in the app.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Revisions
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/roles:
+    get:
+      summary: List roles
+      description: |-
+        This endpoint lists roles that the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Roles
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a role
+      description: |-
+        This endpoint creates a new role for a user in an organization or space.
+
+        To create an organization role you must be an admin or organization manager in the organization associated with the role.
+
+        To create a space role you must be an admin, an organization manager in the parent organization of the space associated with the role, or a space manager in the space associated with the role.
+
+        For a user to be assigned a space role, the user must already have an organization role in the parent organization.
+
+        If the associated user is valid but does not exist in Cloud Controller's database, a user resource will be created automatically.
+
+        __Permitted Roles:__
+        * Admin	
+        * Org Manager	(can create roles in managed organizations and spaces within those organizations; can also create roles for users outside of managed organizations when set_roles_by_username feature_flag is enabled; this requires identifying users by username and origin)
+        * Space Manager	(can create roles in managed spaces for users in their org)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Roles
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/roles/{guid}:
+    delete:
+      summary: Delete a role
+      description: |-
+        This endpoint deletes an individual role.
+
+        __Permitted Roles:__
+        * Admin	
+        * Org Manager	(can delete roles in managed organizations or spaces in those organizations)
+        * Space Manager	(can delete roles in managed spaces)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Roles
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a role
+      description: |-
+        This endpoint gets an individual role resource.
+
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only	
+        * Global Auditor	
+        * Org Manager	(can see roles in managed organizations or spaces in those organizations)
+        * Org Auditor	(can only see organization roles in audited organizations)
+        * Org Billing Manager	(can only see organization roles in billing-managed organizations)
+        * Space Auditor	(can see roles in audited spaces or parent organizations)
+        * Space Developer	(can see roles in developed spaces or parent organizations)
+        * Space Manager	(can see roles in managed spaces or parent organizations)
+        * Space Supporter ((under development) can see roles in supported spaces or parent organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Roles
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/routes:
+    get:
+      summary: List routes
+      description: |-
+        Retrieve all routes the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a route
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/routes/{guid}:
+    delete:
+      summary: Delete a route
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a route
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a route
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/routes/{guid}/destinations:
+    get:
+      summary: List destinations for a route
+      description: |-
+        Retrieve all destinations associated with a route.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Replace all destinations for a route
+      description: |-
+        Replaces all destinations for a route, removing any destinations not included in the provided list.
+
+        If using weighted destinations, all destinations provided here must have a weight specified, and all weights for this route must sum to 100. If not, all provided destinations must not have a weight. Mixing weighted and unweighted destinations for a route is not allowed.
+      
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Insert destinations for a route
+      description: |-
+        Add one or more destinations to a route, preserving any existing destinations.
+
+        Note that weighted destinations cannot be added with this endpoint. To add weighted destinations, replace all destinations for a route at once using the replace destinations endpoint.
+        
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/routes/{guid}/destinations/{destination_guid}:
+    delete:
+      summary: Remove destination from a route
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a destination protocol for a route
+      description: |-
+        This endpoint updates the protocol of a route destination (app, port and weight cannot be updated)
+     
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/routes/{guid}/relationships/shared_spaces:
+    get:
+      summary: List shared spaces relationship (experimental)
+      description: |-
+        Lists the spaces that the route has been shared to.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Experimental
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Share a route with other spaces (experimental)
+      description: |-
+        This endpoint shares the route with the specified spaces. This allows users with read and write access in both the route's space and a shared space to bind a route to an app in the shared space. In order to share into a space the requesting user must have write permission in the target space.
+     
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Experimental
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/routes/{guid}/relationships/shared_spaces/{space_guid}:
+    delete:
+      summary: Unshare a route that was shared with another space (experimental)
+      description: |-
+        Unshares a route that was shared with another space.
+     
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Experimental
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/routes/{guid}/relationships/space:
+    patch:
+      summary: Transfer ownership (experimental)
+      description: |-
+        Transfers a the ownership of a route to a another space. Users must have write access for both spaces to perform this action. The original owning space will still retain access to the route as a shared space. To completely remove a space from a route, users will have to use unshare route.
+     
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Experimental
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/routes:
+    get:
+      summary: List routes for an app
+      description: |-
+        Retrieve all routes that have destinations that point to the given app.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/domains/{guid}/route_reservations:
+    get:
+      summary: Check reserved routes for a domain
+      description: |-
+        Check if a specific route for a domain exists, regardless of the user's visibility for the route in case the route belongs to a space the user does not belong to.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor
+        * Org Billing Manager (can only check if routes exist for a domain without an organization relationship
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Domains
+        - Routes
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/routes:
+    delete:
+      summary: Delete unmapped routes for a space
+      description: |-
+        Deletes all routes in a space that are not mapped to any applications and not bound to any service instances.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Routes
+        - Spaces
+      parameters:
+        - in: query
+          name: unmapped
+          required: true
+          schema:
+            type: boolean
+            default: true
+          allowReserved: true 
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/security_groups:
+    get:
+      summary: List security groups
+      description: |-
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor	(can see globally enabled security groups)
+        * Org Billing Manager	(Can see globally enabled security groups)
+        * Org Manager	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Auditor	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Developer	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Manager	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Supporter	(can see globally enabled security groups or groups associated with a space they can see)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a security group
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/security_groups/{guid}:
+    delete:
+      summary: Delete a security group
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a security group
+      description: |-
+        __Permitted Roles:__
+        * Admin	
+        * Admin Read-Only
+        * Global Auditor
+        * Org Auditor	(can see globally enabled security groups)
+        * Org Billing Manager	(Can see globally enabled security groups)
+        * Org Manager	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Auditor	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Developer	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Manager	(can see globally enabled security groups or groups associated with a space they can see)
+        * Space Supporter	(can see globally enabled security groups or groups associated with a space they can see)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a security group
+      description: |-
+        This endpoint will only update the parameters specified in the request body. Any unspecified parameters will retain their existing values.
+
+        Updates to the rules parameter will fully replace the current set of rules for the security group.
+
+        Updates to the globally_enabled parameter will be merged with the existing configuration. For example, an update to the globally_enabled.running parameter will not affect the globally_enabled.staging configuration.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/security_groups/{guid}/relationships/running_spaces:
+    post:
+      summary: Bind a running security group to spaces
+      description: |-
+        This endpoint binds one or more spaces to a security group with the running lifecycle.
+
+        Running app containers within these spaces will inherit the rules specified by this security group.
+
+        Apps within these spaces must be restarted for these changes to take effect.
+
+        Unless a security group is globally-enabled, an admin must add it to a space for it to be visible for the org and space managers. Once it's visible, org and space managers can add it to additional spaces.
+
+        __Permitted Roles:__
+        * Admin	
+        * Space Manager	(can bind visible security groups to their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager	(can bind visible security groups to their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/security_groups/{guid}/relationships/running_spaces/{space_guid}:
+    delete:
+      summary: Unbind a running security group from a space
+      description: |-
+        This endpoint removes a space from a security group with the running lifecycle.
+
+        Apps within this space must be restarted for these changes to take effect.
+
+        __Permitted Roles:__
+        * Admin	
+        * Space Manager	(can unbind visible security groups from their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager	(can unbind visible security groups from their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/security_groups/{guid}/relationships/staging_spaces:
+    post:
+      summary: Bind a staging security group to spaces
+      description: |-
+        This endpoint binds one or more spaces to a security group with the staging lifecycle.
+
+        Staging app containers within these spaces will inherit the rules specified by this security group.
+
+        Apps within these spaces must be restaged for these changes to take effect.
+
+        Unless a security group is globally-enabled, an admin must add it to a space for it to be visible for the org and space managers. Once it's visible, org and space managers can add it to additional spaces.
+
+        __Permitted Roles:__
+        * Admin	
+        * Space Manager	(can bind visible security groups to their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager	(can bind visible security groups to their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/security_groups/{guid}/relationships/staging_spaces/{space_guid}:
+    delete:
+      summary: Unbind a staging security group from a space
+      description: |-
+        This endpoint removes a space from a security group with the staging lifecycle.
+
+        Apps within this space must be restaged for these changes to take effect.
+
+        __Permitted Roles:__
+        * Admin	
+        * Space Manager	(can unbind visible security groups from their spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+        * Org Manager	(can unbind visible security groups from their organizations spaces (visible groups are globally enabled security groups or groups associated with a space they can see))
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Security Groups
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/running_security_groups:
+    get:
+      summary: List running security groups for a space
+      description: |-
+        This endpoint returns security groups that are enabled for running globally or at the space level for the given space.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager	(can see globally-enabled security groups and groups associated with spaces in their managed organizations)
+        * Space Auditor	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Developer	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Manager	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Supporter	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Security Groups
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/staging_security_groups:
+    get:
+      summary: List staging security groups for a space
+      description: |-
+        This endpoint returns security groups that are enabled for staging globally or at the space level for the given space.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager	(can see globally-enabled security groups and groups associated with spaces in their managed organizations)
+        * Space Auditor	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Developer	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Manager	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+        * Space Supporter	(can see globally-enabled security groups and groups associated with spaces where they have this role)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Security Groups
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_brokers:
+    get:
+      summary: List service brokers
+      description: |-
+        This endpoint retrieves the service brokers the user has access to.
+
+        __Permitted Roles:__
+        * Admin	
+        * Global Auditor	
+        * Space Developer (only space-scoped brokers)
+        * Space Supporter	(only space-scoped brokers)
+        * Others (will receive an empty list)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Brokers
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a service broker
+      description: |-
+        This endpoint creates a new service broker and a job to synchronize the service offerings and service plans with those in the broker’s catalog. The Location header refers to the created job which syncs the broker with the catalog. See Service broker jobs for more information and limitations.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer (only space-scoped brokers)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Brokers
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_brokers/{guid}:
+    delete:
+      summary: Delete a service broker
+      description: |-
+        This endpoint creates a job to delete an existing service broker. The Location header refers to the created job.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer (only space-scoped brokers)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Brokers
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a service broker
+      description: |-
+        This endpoint retrieves the service broker by GUID.
+
+        __Permitted Roles:__
+        * Admin	
+        * Global Auditor	
+        * Space Developer	(only space-scoped brokers)
+        * Space Supporter	(only space-scoped brokers)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Brokers
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a service broker
+      description: |-
+        This endpoint updates a service broker. Depending on the parameters specified, the endpoint may respond with a background job, and it may synchronize the service offerings and service plans with those in the broker’s catalog.
+
+        When a service broker has a synchronization job in progress, only updates with metadata are permitted until the synchronization job is complete.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer (only space-scoped brokers)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Brokers
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_offerings:
+    get: #TODO
+      summary: List service offerings
+      description: |-
+        This endpoint retrieves the service offerings the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Offerings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_offerings/{guid}:
+    delete:
+      summary: Delete a service offering
+      description: |-
+        This endpoint deletes a service offering. This is typically used to remove orphan service offerings from the Cloud Foundry database when they have been removed from the service broker catalog, or when the service broker has been removed.
+
+        Note that this operation only affects the Cloud Foundry database, and no attempt is made to contact the service broker.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer	(only service offerings from space-scoped brokers)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Offerings
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a service offering
+      description: |-
+        This endpoint retrieves the service offering by GUID.
+
+        __Permitted roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Offerings
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a service offering
+      description: |-
+        This endpoint updates a service offering with labels and annotations.
+
+        __Permitted roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Offerings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_plans:
+    get:
+      summary: List service plans
+      description: |-
+        This endpoint retrieves the service plans the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Plans
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_plans/{guid}:
+    delete:
+      summary: Delete a service plan
+      description: |-
+        This endpoint deletes a service plan. This is used to remove service plans from the Cloud Foundry database when they are no longer provided by the service broker.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer (only service plans from space-scoped brokers)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Plans
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a service plan
+      description: |-
+        This endpoint retrieves the service plan by GUID.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Plans
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a service plan
+      description: |-
+        This endpoint updates a service plan with labels and annotations.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer (only for service plans from space-scoped brokers)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Plans
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_plans/{guid}/visibility:
+    get:
+      summary: Get a service plan visibility
+      description: |-
+        This endpoint retrieves the service plan visibility for a given plan.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Plan Visibility
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a service plan visibility
+      description: |-
+        This endpoint updates a service plan visibility. It behaves similar to the POST service plan visibility endpoint but this endpoint will replace the existing list of organizations when the service plan is organization visible.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Service Plan Visibility
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Apply a service plan visibility
+      description: |-
+        This endpoint applies a service plan visibility. It behaves similar to the PATCH service plan visibility endpoint but this endpoint will append to the existing list of organizations when the service plan is organization visible.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Service Plan Visibility
+      responses: #TODO
+        "204":
+          description: No Content
+          
+  /v3/service_plans/{guid}/visibility/{organization_guid}:
+    delete:
+      summary: Remove organization from a service plan visibility
+      description: |-
+        This endpoint removes an organization from a service plan visibility list of organizations. It is only defined for service plans which are org-restricted. It will fail with a HTTP status code of 422 for any other visibility type (e.g. Public).
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Service Plan Visibility
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances:
+    get:
+      summary: List service instances
+      description: |-
+        This endpoint retrieves the service instances the user has access to, including access granted by service instance sharing.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a service instance
+      description: |-
+        This endpoint creates a new service instance. Service instances can be of type managed or user-provided, and the required parameters are different for each type. User provided service instances do not require interactions with service brokers.
+
+        If failures occur when creating managed service instances, the API might execute orphan mitigation steps accordingly to cases outlined in the OSBAPI specification
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances/{guid}:
+    delete:
+      summary: Delete a service instance
+      description: |-
+        This endpoint deletes a service instance and any associated service credential bindings or service route bindings. The service instance is removed from all spaces where it is available.
+
+        User provided service instances do not require interactions with service brokers, therefore the API will respond synchronously to the delete request.
+
+        For managed service instances, the API will respond asynchronously. If a service credential binding or service route binding cannot be deleted synchronously, then the operation will fail, and the deletion of the binding will continue in the background. The operation can be retried until it is successful.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a service instance
+      description: |-
+        This endpoint retrieves the service instance by GUID.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a service instance
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances/{guid}/credentials:
+    get:
+      summary: Get credentials for a user-provided service instance
+      description: |-
+        Retrieves the credentials for a user-provided service instance. This endpoint is not available for managed service instances.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances/{guid}/parameters:
+    get:
+      summary: Get parameters for a managed service instance
+      description: |-
+        Queries the Service Broker for the parameters associated with this service instance. The broker catalog must have enabled the instances_retrievable feature for the Service Offering. 
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances/{guid}/permissions:
+    get:
+      summary: Get permissions for a service instance
+      description: |-
+        Get the current user's permissions for the given service instance. If a user can get a service instance then they can read it. Users who can update a service instance can manage it.
+
+        This endpoint's primary purpose is to enable third-party service dashboards to determine the permissions of a given Cloud Foundry user that has authenticated with the dashboard via single sign-on (SSO). For more information, see the Cloud Foundry documentation on Dashboard Single Sign-On.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances/{guid}/relationships/shared_spaces:
+    get:
+      summary: List shared spaces relationship
+      description: |-
+        This endpoint lists the spaces that the service instance has been shared to.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Share a service instance to other spaces
+      description: |- 
+        This endpoint shares the service instance with the specified spaces. In order to share into a space the requesting user must be a space developer in the target space.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances/{guid}/relationships/shared_spaces/{space_guid}:
+    delete:
+      summary: Unshare a service instance from another space
+      description: |-
+        This endpoint unshares the service instance from the specified space. This will automatically unbind any applications bound to this service instance in the specified space. Unsharing a service instance from a space will not delete any service keys.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_instances/{guid}/relationships/shared_spaces/usage_summary:
+    get:
+      summary: Get usage summary in shared spaces
+      description: |-
+        This endpoint returns the number of bound apps in spaces where the service instance has been shared to.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Instances
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_credential_bindings:
+    get:
+      summary: List service credential bindings
+      description: |-
+        This endpoint retrieves the service credential bindings the user has access to.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Credential Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a service credential binding
+      description: |-
+        This endpoint creates a new service credential binding. Service credential bindings can be of type app or key; key is only valid for managed service instances.
+
+        If failures occur when creating a service credential binding for a managed service instances, the API might execute orphan mitigation steps accordingly to cases outlined in the OSBAPI specification
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter (only allowed to create bindings of type app)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Credential Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_credential_bindings/{guid}:
+    delete:
+      summary: Delete a service credential binding
+      description: |-
+        This endpoint deletes a service credential binding. When deleting credential bindings originated from user provided service instances, the delete operation does not require interactions with service brokers, therefore the API will respond synchronously to the delete request.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter (only allowed to delete bindings of type app)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Credential Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a service credential binding
+      description: |-
+        This endpoint retrieves the service credential binding by GUID.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Credential Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a service credential binding
+      description: |-
+        This endpoint updates a service credential binding with labels and annotations.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Credential Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_credential_bindings/{guid}/details:
+    get:
+      summary: Get details from a service credential binding
+      description: |-
+        This endpoint retrieves the service credential binding details.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Service Credential Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_credential_bindings/{guid}/parameters:
+    get:
+      summary: Get parameters for a service credential binding
+      description: |-
+        Queries the Service Broker for the parameters associated with this service credential binding. The broker catalog must have enabled the bindings_retrievable feature for the Service Offering. Check the Service Offering object for the value of this feature flag. This endpoint is not available for User-Provided Service Instances.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Service Credential Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_route_bindings:
+    get:
+      summary: List service route bindings
+      description: |-
+        This endpoint retrieves the service route bindings the user has access to.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Route Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a service route binding
+      description: |-
+        This endpoint creates a new route service binding. The service instance and the route must be in the same space.
+
+        To bind a route to a user-provided service instance, the service instance must have the route_service_url property set.
+
+        To bind a route to a managed service instance, the service offering must be bindable, and the service offering must have route_forwarding set in the requires property.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Route Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_route_bindings/{guid}:
+    delete:
+      summary: Delete a service route binding
+      description: |-
+        This endpoint deletes a service route binding. When deleting route bindings originating from user provided service instances, the delete operation does not require interactions with service brokers, therefore the API will respond synchronously to the delete request. Consequently, deleting route bindings from managed service instances responds with a job which can be used to track the progress of the delete operation.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Route Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a service route binding
+      description: |-
+        This endpoint retrieves the service route binding by GUID.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Route Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a service route binding
+      description: |-
+        This endpoint updates a service route binding with labels and annotations.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Service Route Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_route_bindings/{guid}/parameters:
+    get:
+      summary: Get parameters for a route binding
+      description: |-
+        Queries the Service Broker for the parameters associated with this service route binding. The broker catalog must have enabled the bindings_retrievable feature for the Service Offering. Check the Service Offering object for the value of this feature flag. This endpoint is not available for User-Provided Service Instances.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.read
+      tags:
+        - Service Route Bindings
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_usage_events:
+    get:
+      summary: List service usage events
+      description: |-
+        Retrieve all service usage events the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Service Usage Events
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_usage_events/{guid}:
+    get:
+      summary: Get a service usage event
+      description: |-
+        Retrieve a service usage event.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+      tags:
+        - Service Usage Events
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/service_usage_events/actions/destructively_purge_all_and_reseed:
+    post:
+      summary: Purge and seed service usage events
+      description: |-
+        Destroys all existing events. Populates new usage events, one for each existing service instance. All populated events will have a created_at value of current time. There is the potential race condition if service instances are currently being created or deleted. The seeded usage events will have the same guid as the service instance.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Service Usage Events
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/sidecars:
+    get:
+      summary: List sidecars for app
+      description: |-
+        Retrieves all sidecars associated with a app.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Apps
+        - Sidecars
+      responses: #TODO
+        "204":
+          description: No Content
+    post: 
+      summary: Create a sidecar associated with an app
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Apps
+        - Sidecars
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/processes/{guid}/sidecars:
+    get:
+      summary: List sidecars for process
+      description: |-
+        Retrieves all sidecars associated with a process.
+
+        __Permitted Roles:__
+        * Admin
+        * Admin Read-Only
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Processes
+        - Sidecars
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/sidecars/{guid}:
+    delete:
+      summary: Delete a sidecar
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Sidecars
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a sidecar
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Sidecars
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a sidecar
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Sidecars
+      responses: #TODO
+        "204":
+          description: No Content
+
+  /v3/spaces:
+    get:
+      summary: List spaces
+      description: |-
+        Retrieve all spaces the user has access to.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a space
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}:
+    delete:
+      summary: Delete a space
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a space
+      description: |-
+        This endpoint retrieves the specified space object.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a space
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+        * Space Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+
+  /v3/spaces/{guid}/relationships/isolation_segment:
+    get:
+      summary: Get assigned isolation segment
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Manage isolation segment
+      description: |-
+        This endpoint assigns an isolation segment to the space. The isolation segment must be entitled to the space’s parent organization.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/users:
+    get:
+      summary: List users for a space
+      description: |-
+        Retrieve all users with a role in the specified space.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/features:
+    get:
+      summary: List space features
+      description: |-
+        This endpoint retrieves the list of features for the specified space. Currently, the only feature on spaces is the SSH feature.
+
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Space Features
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/spaces/{guid}/features/{name}:
+    get:
+      summary: Get a space feature
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Global Auditor
+        * Org Manager
+        * Space Auditor
+        * Space Developer
+        * Space Manager
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Space Features
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a space feature
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
+        * Space Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Space Features
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/space_quotas:
+    get:
+      summary: List space quotas
+      description: |-
+        This endpoint lists all space quota resources that the user has permission to view (see getting a space quota).
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Space Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a space quota
+      description: |-
+        This endpoint creates a new space quota scoped to a specific organization.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (can create space quotas in their managed organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Space Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/space_quotas/{guid}:
+    delete:
+      summary: Delete a space quota
+      description: |-
+        Space quotas cannot be deleted when applied to any spaces.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (can delete space quotas in their managed organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Space Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a space quota
+      description: |-
+        __Permitted Roles:__
+        * Admin	
+        * Global Auditor	
+        * Org Manager	(can only query space quotas owned by affiliated organizations)
+        * Space Auditor	(can only query space quotas applied to affiliated spaces)
+        * Space Developer	(can only query space quotas applied to affiliated spaces)
+        * Space Manager	(can only query space quotas applied to affiliated spaces)
+        * Space Supporter	(can only query space quotas applied to affiliated spaces)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Space Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a space quota
+      description: |-
+        This endpoint will only update the parameters specified in the request body. Any unspecified parameters will retain their existing values.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (can delete space quotas within their managed organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Space Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/space_quotas/{quota_guid}/relationships/spaces:
+    post:
+      summary: Apply a space quota to a space
+      description: |-
+        This endpoint applies a space quota to one or more spaces.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (can apply space quotas to spaces within their managed organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Space Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/space_quotas/{quota_guid}/relationships/spaces/{space_guid}:
+    delete:
+      summary: Remove a space quota from a space
+      description: |-
+        This endpoint removes a space quota from a space.
+
+        __Permitted Roles:__
+        * Admin
+        * Org Manager (can remove space quotas from spaces within their managed organizations)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Space Quotas
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/stacks:
+    get:
+      summary: List stacks
+      description: |-
+        Retrieve all stacks.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Stacks
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a stack
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Stacks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/stacks/{guid}:
+    delete:
+      summary: Delete a stack
+      description: |-
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Stacks
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a stack
+      description: |-
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Stacks
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a stack
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Stacks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/stacks/{guid}/apps:
+    get:
+      summary: List apps on a stack
+      description: |-
+        Retrieve all apps using a given stack.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Stacks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/tasks:
+    get:
+      summary: List tasks
+      description: |-
+        Retrieve all tasks the user has access to. The command field is excluded in the response.
+
+        __Permitted Roles:__
+        * All Roles
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Tasks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/tasks/{guid}:
+    get:
+      summary: Get a task
+      description: |-
+        Retrieve a specific task. The command field may be excluded in the response based on the user’s role.
+
+        __Permitted Roles:__
+        * Admin	
+        * Global Auditor (command field redacted)
+        * Org Manager	(command field redacted)
+        * Space Auditor	(command field redacted)
+        * Space Developer	
+        * Space Manager	(command field redacted)
+        * Space Supporter	(command field redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Tasks
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a task
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Tasks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/tasks/{guid}/actions/cancel:
+    post:
+      summary: Cancel a task
+      description: |-
+        Cancels a running task.
+
+        Canceled tasks will initially be in state CANCELING and will move to state FAILED once the cancel request has been processed.
+
+        Cancel requests are idempotent and will be processed according to the state of the task when the request is executed.
+
+        Canceling a task that is in SUCCEEDED or FAILED state will return an error.
+
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+        * Space Supporter
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Tasks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/apps/{guid}/tasks:
+    get:
+      summary: List tasks for an app
+      description: |-
+        Retrieve tasks for an app the user has access to. The command field may be excluded in the response based on the user’s role.
+
+        __Permitted Roles:__
+        * Admin	
+        * Global Auditor (command field redacted)
+        * Org Manager	(command field redacted)
+        * Space Auditor	(command field redacted)
+        * Space Developer	
+        * Space Manager	(command field redacted)
+        * Space Supporter	(command field redacted)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Tasks
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a task
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Space Developer
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Tasks
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/users:
+    get:
+      summary: List users
+      description: |-
+        Retrieve all users that the current user can see.
+
+        __Permitted Roles:__
+        * Admin	
+        * Global Auditor	
+        * Org Auditor	(can only view users affiliated with their org)
+        * Org Billing Manager	(can only view users affiliated with their org)
+        * Org Manager	(can only view users affiliated with their org)
+        * Space Auditor	(can only view users affiliated with their org)
+        * Space Developer	(can only view users affiliated with their org)
+        * Space Manager	(can only view users affiliated with their org)
+        * Space Supporter	(can only view users affiliated with their org)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Users
+      responses: #TODO
+        "204":
+          description: No Content
+    post:
+      summary: Create a user
+      description: |-
+        Creating a user requires one value, a GUID. This creates a user in the Cloud Controller database.
+
+        Generally, the GUID should match the GUID of an already-created user in the UAA database, though this is not required.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Users
+      responses: #TODO
+        "204":
+          description: No Content
+  /v3/users/{guid}:
+    delete:
+      summary: Delete a user
+      description: |-
+        All roles associated with a user will be deleted if the user is deleted.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Users
+      responses: #TODO
+        "204":
+          description: No Content
+    get:
+      summary: Get a user
+      description: |-
+        __Permitted Roles:__
+        * Admin	
+        * Global Auditor	
+        * Org Auditor	(can only view users affiliated with their org)
+        * Org Billing Manager	(can only view users affiliated with their org)
+        * Org Manager	(can only view users affiliated with their org)
+        * Space Auditor	(can only view users affiliated with their org)
+        * Space Developer	(can only view users affiliated with their org)
+        * Space Manager	(can only view users affiliated with their org)
+        * Space Supporter	(can only view users affiliated with their org)
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.admin_read_only
+          - cloud_controller.global_auditor
+          - cloud_controller.read
+      tags:
+        - Users
+      responses: #TODO
+        "204":
+          description: No Content
+    patch:
+      summary: Update a user
+      description: |-
+        Update a user's metadata.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
+      tags:
+        - Users
+      responses: #TODO
+        "204":
+          description: No Content
+components:
+  securitySchemes:
+    uaa:
+      type: oauth2
+      description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
+      flows:
+        password:
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            cloud_controller.admin: This scope provides read and write access to all resources
+            cloud_controller.admin_read_only: This scope provides read only access to all resources
+            cloud_controller.global_auditor: This scope provides read only access to all resources except secrets (such as environment variables)
+            cloud_controller.read: This scope provides read access to resources based on user roles
+            cloud_controller.write: This scope provides write access to resources based on user roles
+            cloud_controller.update_build_state: This scope allows its bearer to update the state of a build; currently only used when updating builds
+            cloud_controller_service_permissions.read: This scope provides read only access for service instance permissions
