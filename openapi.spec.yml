@@ -5017,6 +5017,17 @@ paths:
       tags:
         - Spaces
       responses: #TODO
+        "200":
+          description: A list of spaces
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationObject'
+                  - properties:
+                      resources:
+                        items:
+                          $ref: '#/components/schemas/SpaceObject'
         "204":
           description: No Content
     post:
@@ -5789,9 +5800,9 @@ components:
     uaa:
       type: oauth2
       description: |-
-        Authenticate with the Cloud Foundry UAA service, using the Resource Owner Password flow.
+        Authenticate with the Cloud Foundry UAA service, using the Resource Owner Password flow. 
 
-        If two-factor authentication (2FA) is activated on the account, you have to enter your password followed by a one-time TOTP (Time-based One-Time Password) token.
+        If two-factor authentication (2FA) is activated on the account, you have to enter your password followed by a one-time TOTP (Time-based One-Time Password) token. 
 
         *Hint*: In case you don't have dedicated client credentials at hand, you can use the defaults of the cloud foundry cli. Just enter `cf` as `client_id`, leave `client_secret` blank.
       flows:
@@ -5823,6 +5834,10 @@ components:
       required: [code, title]
     LinkObject:
       type: object
+      description: |-
+        Links provide URLs to relationships and actions for a resource. Links are represented as a JSON object and always contain a self link.
+
+        Each link is keyed by its type and will include a href for the URL and an optional method for links that cannot be followed using GET.
       properties:
         href:
           type: string
@@ -5855,6 +5870,9 @@ components:
         previous:
           $ref: '#/components/schemas/LinkObject'
           description: Link to the previous page
+        resources:
+          type: array
+          description: A list of resources returned by the request. Each resource is represented as an object with its own attributes and values.
       required:
         - total_results
         - total_pages
@@ -5862,13 +5880,14 @@ components:
         - last
         - next
         - previous
+        - resources
     RelationshipObject:
       type: object
       description: |-
         The relationship object is a key-value pair that uniquely identifies a resource. In practice this is almost always the guid of a resource.
       properties:
         guid:
-          type: string
+          $ref: '#/components/schemas/UUID'
           description: The unique identifier for the related resource
       required: [guid]
     ToOneRelationshipObject:
@@ -5891,6 +5910,36 @@ components:
             $ref: '#/components/schemas/RelationshipObject'
           description: An array of multiple relationships
       required: [data]
+    SpaceObject:
+      type: object
+      description: |-
+        Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
+      properties:
+        guid:
+          $ref: '#/components/schemas/UUID'
+          description: Unique identifier for the space
+        created_at:
+          type: string
+          format: date-time
+          description: The time with zone when the object was created
+        updated_at:
+          type: string
+          format: date-time
+          description: The time with zone when the object was last updated
+        name:
+          type: string
+          description: Name of the space
+        relationships:
+          type: object
+          properties:
+            organization:
+              $ref: '#/components/schemas/ToOneRelationshipObject'
+              description: The organization the space is contained in
+            quota:
+              $ref: '#/components/schemas/ToOneRelationshipObject'
+              description: The space quota applied to the space
+        links:
+          $ref: '#/components/schemas/LinkObject'
     AppFeatureName:
       type: string
       enum: [ssh, revisions]
