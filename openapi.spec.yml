@@ -5908,8 +5908,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RelationshipObject'
-          description: An array of multiple relationships
+          description: An array of multiple relationship
       required: [data]
+    MetadataObject:
+      type: object
+      description: |-
+        Metadata allows you to tag API resources with information that does not directly affect its functionality.
+      properties:
+        annotations:
+          type: object
+          description: |-
+            Annotations are user-specified key-value pairs that are attached to API resources. They do not affect the operation of Cloud Foundry. Annotations cannot be used in filters.
+          patternProperties:
+            '^([a-zA-Z0-9\-\.]{1,263}\/)?((?:[a-zA-Z][a-zA-Z0-9_\-\.]{0,61})?[a-zA-Z])$':
+              type: string
+              pattern: '^.{0,5000}$'
+        labels:
+          type: object
+          description: |-
+            Labels allow users to apply identifying attributes to resources that are meaningful to the user, but not the CloudFoundry system.
+          patternProperties:
+            '^([a-zA-Z0-9\-\.]{1,263}\/)?((?:[a-zA-Z][a-zA-Z0-9_\-\.]{0,61})?[a-zA-Z])$':
+              type: string
+              pattern: '^((?:[a-zA-Z][a-zA-Z0-9_\-\.]{0,61})?[a-zA-Z])?$'
     SpaceObject:
       type: object
       description: |-
@@ -5918,19 +5939,24 @@ components:
         guid:
           $ref: '#/components/schemas/UUID'
           description: Unique identifier for the space
+          examples: ['885735b5-aea4-4cf5-8e44-961af0e41920']
         created_at:
           type: string
           format: date-time
           description: The time with zone when the object was created
+          examples: ['2017-02-01T01:33:58Z']
         updated_at:
           type: string
           format: date-time
           description: The time with zone when the object was last updated
+          examples: ['2017-02-01T01:33:58Z']
         name:
           type: string
           description: Name of the space
+          examples: ['my-space']
         relationships:
           type: object
+          description: Relationships with other resources
           properties:
             organization:
               $ref: '#/components/schemas/ToOneRelationshipObject'
@@ -5938,8 +5964,12 @@ components:
             quota:
               $ref: '#/components/schemas/ToOneRelationshipObject'
               description: The space quota applied to the space
+        metadata:
+          $ref: '#/components/schemas/MetadataObject'
+          description: Metadata applied to the resource
         links:
           $ref: '#/components/schemas/LinkObject'
+          description: Links to related resources
     AppFeatureName:
       type: string
       enum: [ssh, revisions]
