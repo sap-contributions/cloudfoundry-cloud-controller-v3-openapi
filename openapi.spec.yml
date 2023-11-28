@@ -5841,6 +5841,7 @@ components:
       properties:
         href:
           type: string
+          format: uri
           description: The absolute URL
         method:
           type: string
@@ -5923,6 +5924,12 @@ components:
             '^([a-zA-Z0-9\-\.]{1,263}\/)?((?:[a-zA-Z][a-zA-Z0-9_\-\.]{0,61})?[a-zA-Z])$':
               type: string
               pattern: '^.{0,5000}$'
+          examples:
+            - {
+              'org.cloudfoundry.my-prefix/annotation.1': 'a',
+              'org.cloudfoundry.my-prefix/annotation.2': 'b',
+              'an-unprefixed-annotation': 'c'
+            }
         labels:
           type: object
           description: |-
@@ -5931,6 +5938,12 @@ components:
             '^([a-zA-Z0-9\-\.]{1,263}\/)?((?:[a-zA-Z][a-zA-Z0-9_\-\.]{0,61})?[a-zA-Z])$':
               type: string
               pattern: '^((?:[a-zA-Z][a-zA-Z0-9_\-\.]{0,61})?[a-zA-Z])?$'
+          examples:
+            - {
+              'org.cloudfoundry.my-prefix/label.1': 'a',
+              'org.cloudfoundry.my-prefix/label.2': 'b',
+              'an-unprefixed-label': 'c'
+            }
     SpaceObject:
       type: object
       description: |-
