@@ -11,7 +11,7 @@ info:
 
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    identifier: Apache-2.0
   version: 3.151.0
 servers:
   - url: https://api.cf.eu12.hana.ondemand.com/
