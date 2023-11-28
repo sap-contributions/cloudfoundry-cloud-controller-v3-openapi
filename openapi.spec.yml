@@ -5846,8 +5846,29 @@ components:
         method:
           type: string
           description: An optional field containing the HTTP method to be used when following the URL
+          enum:
+            - GET
+            - HEAD
+            - POST
+            - PUT
+            - DELETE
+            - CONNECT
+            - OPTIONS
+            - TRACE
+            - PATCH
       required:
         - href
+    LinksObject:
+      type: object
+      description: |-
+        Links provide URLs to relationships and actions for a resource. Links are represented as a JSON object and always contain a self link.
+      properties:
+        self:
+          $ref: '#/components/schemas/LinkObject'
+          description: A link to the same resource
+      additionalProperties:
+        $ref: '#/components/schemas/LinkObject'
+        description: A link to a related resource
     PaginationObject:
       type: object
       description: |-
@@ -5856,9 +5877,11 @@ components:
         total_results:
           type: integer
           description: Total number of resources for all pages
+          examples: [1]
         total_pages:
           type: integer
           description: Total number of pages
+          examples: [1]
         first:
           $ref: '#/components/schemas/LinkObject'
           description: Link to the first page
@@ -5925,11 +5948,9 @@ components:
               type: string
               pattern: '^.{0,5000}$'
           examples:
-            - {
-              'org.cloudfoundry.my-prefix/annotation.1': 'a',
-              'org.cloudfoundry.my-prefix/annotation.2': 'b',
+            - 'org.cloudfoundry.my-prefix/annotation.1': 'a'
+              'org.cloudfoundry.my-prefix/annotation.2': 'b'
               'an-unprefixed-annotation': 'c'
-            }
         labels:
           type: object
           description: |-
@@ -5939,11 +5960,9 @@ components:
               type: string
               pattern: '^((?:[a-zA-Z][a-zA-Z0-9_\-\.]{0,61})?[a-zA-Z])?$'
           examples:
-            - {
-              'org.cloudfoundry.my-prefix/label.1': 'a',
-              'org.cloudfoundry.my-prefix/label.2': 'b',
+            - 'org.cloudfoundry.my-prefix/label.1': 'a'
+              'org.cloudfoundry.my-prefix/label.2': 'b'
               'an-unprefixed-label': 'c'
-            }
     SpaceObject:
       type: object
       description: |-
@@ -5981,8 +6000,7 @@ components:
           $ref: '#/components/schemas/MetadataObject'
           description: Metadata applied to the resource
         links:
-          $ref: '#/components/schemas/LinkObject'
-          description: Links to related resources
+          $ref: '#/components/schemas/LinksObject'
     AppFeatureName:
       type: string
       enum: [ssh, revisions]
