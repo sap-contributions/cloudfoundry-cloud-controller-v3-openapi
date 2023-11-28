@@ -5963,6 +5963,11 @@ components:
             - 'org.cloudfoundry.my-prefix/label.1': 'a'
               'org.cloudfoundry.my-prefix/label.2': 'b'
               'an-unprefixed-label': 'c'
+    AppObject:
+      type: object
+      description: |-
+        Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
+      properties:
     SpaceObject:
       type: object
       description: |-
@@ -5973,15 +5978,11 @@ components:
           description: Unique identifier for the space
           examples: ['885735b5-aea4-4cf5-8e44-961af0e41920']
         created_at:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
           description: The time with zone when the object was created
-          examples: ['2017-02-01T01:33:58Z']
         updated_at:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/DateTime'
           description: The time with zone when the object was last updated
-          examples: ['2017-02-01T01:33:58Z']
         name:
           type: string
           description: Name of the space
@@ -6027,6 +6028,11 @@ components:
         - task_creation
         - unset_roles_by_username
         - user_org_creation
+    DateTime:
+      type: string
+      format: date-time
+      description: An ISO8601 compatible date and time string
+      examples: ['2017-02-01T01:33:58Z']
     UUID:
       type: string
       format: uuid
