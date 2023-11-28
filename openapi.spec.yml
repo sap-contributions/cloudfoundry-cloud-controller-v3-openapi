@@ -130,6 +130,17 @@ paths:
       tags:
         - Apps
       responses: #TODO
+        "200":
+          description: A list of apps
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationObject'
+                  - properties:
+                      resources:
+                        items:
+                          $ref: '#/components/schemas/AppObject'
         "204":
           description: No Content
     post:
@@ -5963,45 +5974,89 @@ components:
             - 'org.cloudfoundry.my-prefix/label.1': 'a'
               'org.cloudfoundry.my-prefix/label.2': 'b'
               'an-unprefixed-label': 'c'
-    AppObject:
+    LifecycleObject:
       type: object
-      description: |-
-        Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
+      description: Lifecycles inform the platform of how to build droplets and run apps.
       properties:
-    SpaceObject:
+        type:
+          type: string
+          description: Type of the lifecycle
+          examples: ['docker']
+        data:
+          type: object
+          description: Data that is used during staging and running for a lifecycle
+          examples: []
+    Entity:
       type: object
-      description: |-
-        Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
       properties:
         guid:
           $ref: '#/components/schemas/UUID'
-          description: Unique identifier for the space
-          examples: ['885735b5-aea4-4cf5-8e44-961af0e41920']
+          description: Unique identifier for the entity
         created_at:
           $ref: '#/components/schemas/DateTime'
           description: The time with zone when the object was created
         updated_at:
           $ref: '#/components/schemas/DateTime'
           description: The time with zone when the object was last updated
-        name:
-          type: string
-          description: Name of the space
-          examples: ['my-space']
-        relationships:
-          type: object
-          description: Relationships with other resources
-          properties:
-            organization:
-              $ref: '#/components/schemas/ToOneRelationshipObject'
-              description: The organization the space is contained in
-            quota:
-              $ref: '#/components/schemas/ToOneRelationshipObject'
-              description: The space quota applied to the space
-        metadata:
-          $ref: '#/components/schemas/MetadataObject'
-          description: Metadata applied to the resource
         links:
           $ref: '#/components/schemas/LinksObject'
+    AppStatus:
+      type: string
+      description: Current desired state of the app; valid values are STOPPED or STARTED
+      enum:
+        - STOPPED
+        - STARTED
+    AppObject:
+      type: object
+      description: |-
+        Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - properties:
+            name:
+              type: string
+              description: Name of the app
+              examples: ['my-app']
+            state:
+              $ref: '#/components/schemas/AppStatus'
+            lifecycle:
+              $ref: '#/components/schemas/LifecycleObject'
+              description: |-
+                Provides the default lifecycle object for the application. This lifecycle will be used when staging and running the application. The staging lifecycle can be overridden on builds
+            relationships:
+              type: object
+              description: Relationships with other resources
+              properties:
+                space:
+                  $ref: '#/components/schemas/ToOneRelationshipObject'
+                  description: The space the app is contained in
+            metadata:
+              $ref: '#/components/schemas/MetadataObject'
+              description: Metadata applied to the resource
+    SpaceObject:
+      type: object
+      description: |-
+        Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+        - properties:
+            name:
+              type: string
+              description: Name of the space
+              examples: ['my-space']
+            relationships:
+              type: object
+              description: Relationships with other resources
+              properties:
+                organization:
+                  $ref: '#/components/schemas/ToOneRelationshipObject'
+                  description: The organization the space is contained in
+                quota:
+                  $ref: '#/components/schemas/ToOneRelationshipObject'
+                  description: The space quota applied to the space
+            metadata:
+              $ref: '#/components/schemas/MetadataObject'
+              description: Metadata applied to the resource
     AppFeatureName:
       type: string
       enum: [ssh, revisions]
