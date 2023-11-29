@@ -5229,8 +5229,20 @@ paths:
       tags:
         - Spaces
       responses: #TODO
-        "204":
-          description: No Content
+        "202":
+          description: The space is being deleted
+        "400":
+          $ref: '#/components/responses/ErrBadQueryParameter'
+        "401":
+          $ref: '#/components/responses/ErrNotAuthenticated'
+        "403":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "404":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "422":
+          $ref: '#/components/responses/ErrUnprocessableEntity'
+        "500":
+          $ref: '#/components/responses/ErrUnexpected'
   /v3/spaces/{guid}/relationships/isolation_segment:
     parameters:
       - in: path
