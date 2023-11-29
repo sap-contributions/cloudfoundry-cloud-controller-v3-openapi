@@ -4450,7 +4450,7 @@ paths:
         description: Unique identifier for the service instance
         example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
       - in: path
-        name: guid
+        name: space_guid
         schema:
           $ref: '#/components/schemas/UUID'
         required: true
@@ -5335,6 +5335,14 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/features:
+    parameters:
+      - in: path
+        name: guid
+        schema:
+          $ref: '#/components/schemas/UUID'
+        required: true
+        description: Unique identifier for the space
+        example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: List space features
       description: |-
