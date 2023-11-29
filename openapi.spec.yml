@@ -5986,7 +5986,7 @@ components:
           type: object
           description: Data that is used during staging and running for a lifecycle
           examples: []
-    Entity:
+    EntityMetadata:
       type: object
       properties:
         guid:
@@ -6011,7 +6011,7 @@ components:
       description: |-
         Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
       allOf:
-        - $ref: '#/components/schemas/Entity'
+        - $ref: '#/components/schemas/EntityMetadata'
         - properties:
             name:
               type: string
@@ -6038,7 +6038,7 @@ components:
       description: |-
         Every application and service is scoped to a space. Each org contains at least one space. A space provides users with access to a shared location for application development, deployment, and maintenance.
       allOf:
-        - $ref: '#/components/schemas/Entity'
+        - $ref: '#/components/schemas/EntityMetadata'
         - properties:
             name:
               type: string
