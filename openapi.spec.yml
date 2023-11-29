@@ -1886,9 +1886,31 @@ paths:
           - cloud_controller.read
       tags:
         - Organizations
-      responses: #TODO
-        "204":
-          description: No Content
+      parameters: #TODO
+      responses:
+        "200":
+          description: A list of organizations
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationObject'
+                  - properties:
+                      resources:
+                        items:
+                          $ref: '#/components/schemas/OrganizationObject'
+        "400":
+          $ref: '#/components/responses/ErrBadQueryParameter'
+        "401":
+          $ref: '#/components/responses/ErrNotAuthenticated'
+        "403":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "404":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "422":
+          $ref: '#/components/responses/ErrUnprocessableEntity'
+        "500":
+          $ref: '#/components/responses/ErrUnexpected'
     post:
       summary: Create an organization
       description: |-
