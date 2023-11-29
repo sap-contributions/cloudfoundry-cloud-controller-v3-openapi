@@ -552,6 +552,17 @@ paths:
       tags:
         - App Features
       responses:
+        "200":
+          description: A list of app features
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginationObject'
+                  - properties:
+                      resources:
+                        items:
+                          $ref: '#/components/schemas/AppFeatureObject'
         "204":
           description: No Content
   /v3/apps/{guid}/features/{name}:
