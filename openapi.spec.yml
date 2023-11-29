@@ -1950,9 +1950,22 @@ paths:
           - cloud_controller.read
       tags:
         - Organizations
-      responses: #TODO
-        "204":
-          description: No Content
+      responses:
+        "200":
+          description: The organization
+          $ref: '#/components/schemas/OrganizationObject'
+        "400":
+          $ref: '#/components/responses/ErrBadQueryParameter'
+        "401":
+          $ref: '#/components/responses/ErrNotAuthenticated'
+        "403":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "404":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "422":
+          $ref: '#/components/responses/ErrUnprocessableEntity'
+        "500":
+          $ref: '#/components/responses/ErrUnexpected'
     delete:
       summary: Delete an organization
       description: |-
