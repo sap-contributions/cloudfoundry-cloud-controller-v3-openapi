@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.1
 info:
   title: Cloud Foundry V3 API
   description: |-
@@ -14,7 +14,7 @@ info:
     identifier: Apache-2.0
   version: 3.151.0
 servers:
-  - url: https://api.cf.eu12.hana.ondemand.com/
+  - url: https://api.cf.eu10.hana.ondemand.com/
 tags:
   - name: Admin
     description: Endpoints specific to administrative users.
@@ -4450,7 +4450,7 @@ paths:
         description: Unique identifier for the service instance
         example: c89b3280-fe8d-4aa0-a42e-44465bb1c61c
       - in: path
-        name: guid
+        name: space_guid
         schema:
           $ref: '#/components/schemas/UUID'
         required: true
@@ -5335,6 +5335,14 @@ paths:
         "204":
           description: No Content
   /v3/spaces/{guid}/features:
+    parameters:
+     - in: path
+       name: guid
+       schema:
+        $ref: '#/components/schemas/UUID'
+       required: true
+       description: Unique identifier for the space
+       example: 885735b5-aea4-4cf5-8e44-961af0e41920
     get:
       summary: List space features
       description: |-
@@ -6121,9 +6129,6 @@ components:
         previous:
           $ref: '#/components/schemas/LinkObject'
           description: Link to the previous page
-        resources:
-          type: array
-          description: A list of resources returned by the request. Each resource is represented as an object with its own attributes and values.
       required:
         - total_results
         - total_pages
