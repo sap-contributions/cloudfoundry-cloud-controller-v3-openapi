@@ -1935,21 +1935,6 @@ paths:
         required: true
         description: Unique identifier for the organization
         example: 24637893-3b77-489d-bb79-8466f0d88b52
-    delete:
-      summary: Delete an organization
-      description: |-
-        When an organization is deleted, user roles associated with the organization will also be deleted.
-
-        __Permitted Roles:__
-        * Admin
-      security:
-        - uaa:
-          - cloud_controller.admin
-      tags:
-        - Organizations
-      responses: #TODO
-        "204":
-          description: No Content
     get:
       summary: Get an organization
       description: |-
@@ -1963,6 +1948,21 @@ paths:
           - cloud_controller.admin_read_only
           - cloud_controller.global_auditor
           - cloud_controller.read
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+    delete:
+      summary: Delete an organization
+      description: |-
+        When an organization is deleted, user roles associated with the organization will also be deleted.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
       tags:
         - Organizations
       responses: #TODO
