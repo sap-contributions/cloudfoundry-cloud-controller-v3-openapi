@@ -5183,9 +5183,39 @@ paths:
           - cloud_controller.write
       tags:
         - Spaces
+      requestBody:
+        description: Updates a given space
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: New space name
+                  examples: ['my-space']
+                metadata:
+                  $ref: '#/components/schemas/MetadataObject'
       responses: #TODO
-        "204":
-          description: No Content
+        "200":
+          description: The updated space
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpaceObject'
+        "400":
+          $ref: '#/components/responses/ErrBadQueryParameter'
+        "401":
+          $ref: '#/components/responses/ErrNotAuthenticated'
+        "403":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "404":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "422":
+          $ref: '#/components/responses/ErrUnprocessableEntity'
+        "500":
+          $ref: '#/components/responses/ErrUnexpected'
     delete:
       summary: Delete a space
       description: |-
