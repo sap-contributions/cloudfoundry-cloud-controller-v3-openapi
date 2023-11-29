@@ -2005,21 +2005,6 @@ paths:
           $ref: '#/components/responses/ErrUnprocessableEntity'
         "500":
           $ref: '#/components/responses/ErrUnexpected'
-    delete:
-      summary: Delete an organization
-      description: |-
-        When an organization is deleted, user roles associated with the organization will also be deleted.
-
-        __Permitted Roles:__
-        * Admin
-      security:
-        - uaa:
-          - cloud_controller.admin
-      tags:
-        - Organizations
-      responses: #TODO
-        "204":
-          description: No Content
     patch:
       summary: Update an organization
       description: |-
@@ -2030,6 +2015,21 @@ paths:
         - uaa:
           - cloud_controller.admin
           - cloud_controller.write
+      tags:
+        - Organizations
+      responses: #TODO
+        "204":
+          description: No Content
+    delete:
+      summary: Delete an organization
+      description: |-
+        When an organization is deleted, user roles associated with the organization will also be deleted.
+
+        __Permitted Roles:__
+        * Admin
+      security:
+        - uaa:
+          - cloud_controller.admin
       tags:
         - Organizations
       responses: #TODO
