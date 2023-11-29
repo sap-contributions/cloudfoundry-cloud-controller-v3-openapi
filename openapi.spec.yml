@@ -6033,6 +6033,27 @@ components:
             metadata:
               $ref: '#/components/schemas/MetadataObject'
               description: Metadata applied to the resource
+    AppFeatureObject:
+      type: object
+      description: |-
+        App features are used to manage whether optional capabilities are enabled for a given application.
+      properties:
+        name:
+          type: string
+          description: Name of the app feature
+          examples: ['ssh']
+        description:
+          type: string
+          description: Description of the app feature
+          examples: ['Enable SSHing into the app.']
+        enabled:
+          type: boolean
+          description: Denotes whether or not the app feature is enabled
+          examples: [false]
+      required:
+        - name
+        - description
+        - enabled
     SpaceObject:
       type: object
       description: |-
