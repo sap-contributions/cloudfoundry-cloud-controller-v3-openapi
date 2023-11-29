@@ -5157,7 +5157,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SpaceObject'
+                allOf:
+                  - $ref: '#/components/schemas/SpaceObject'
+                  - properties:
+                      included:
+                        type: object
+                        description: Optionally, information about parent objects.
+                        properties:
+                          organizations:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/OrganizationObject'
         "400":
           $ref: '#/components/responses/ErrBadQueryParameter'
         "401":
@@ -5197,7 +5207,7 @@ paths:
                   examples: ['my-space']
                 metadata:
                   $ref: '#/components/schemas/MetadataObject'
-      responses: #TODO
+      responses:
         "200":
           description: The updated space
           content:
@@ -5228,7 +5238,7 @@ paths:
           - cloud_controller.write
       tags:
         - Spaces
-      responses: #TODO
+      responses:
         "202":
           description: The space is being deleted
         "400":
@@ -6260,6 +6270,31 @@ components:
         - name
         - description
         - enabled
+    OrganizationObject:
+      type: object
+      description: |-
+        An org is a development account that an individual or multiple collaborators can own and use. All collaborators access an org with user accounts. Collaborators in an org share a resource quota plan, applications, services availability, and custom domains.
+      allOf:
+        - $ref: '#/components/schemas/EntityMetadata'
+        - properties:
+            name:
+              type: string
+              description: Name of the organization
+              examples: ['my-organization']
+            suspended:
+              type: boolean
+              description: Whether an organization is suspended or not; non-admins will be blocked from creating, updating, or deleting resources in a suspended organization
+              examples: [false]
+            relationships:
+              type: object
+              description: Relationships with other resources
+              properties:
+                quota:
+                  $ref: '#/components/schemas/ToOneRelationshipObject'
+                  description: The quota applied to the organization
+            metadata:
+              $ref: '#/components/schemas/MetadataObject'
+              description: Metadata applied to the resource
     SpaceObject:
       type: object
       description: |-
