@@ -2440,9 +2440,48 @@
         "tags": [
           "Organizations"
         ],
+        "parameters": null,
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "A list of organizations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginationObject"
+                    },
+                    {
+                      "properties": {
+                        "resources": {
+                          "items": {
+                            "$ref": "#/components/schemas/OrganizationObject"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrBadQueryParameter"
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrNotAuthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/ErrResourceNotFound"
+          },
+          "404": {
+            "$ref": "#/components/responses/ErrResourceNotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ErrUnprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrUnexpected"
           }
         }
       },
@@ -2480,25 +2519,6 @@
           "example": "24637893-3b77-489d-bb79-8466f0d88b52"
         }
       ],
-      "delete": {
-        "summary": "Delete an organization",
-        "description": "When an organization is deleted, user roles associated with the organization will also be deleted.\n\n__Permitted Roles:__\n* Admin",
-        "security": [
-          {
-            "uaa": [
-              "cloud_controller.admin"
-            ]
-          }
-        ],
-        "tags": [
-          "Organizations"
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          }
-        }
-      },
       "get": {
         "summary": "Get an organization",
         "description": "This endpoint retrieves the specified organization object.\n\n__Permitted Roles:__\n* All Roles",
@@ -2509,6 +2529,44 @@
               "cloud_controller.admin_read_only",
               "cloud_controller.global_auditor",
               "cloud_controller.read"
+            ]
+          }
+        ],
+        "tags": [
+          "Organizations"
+        ],
+        "responses": {
+          "200": {
+            "description": "The organization",
+            "$ref": "#/components/schemas/OrganizationObject"
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrBadQueryParameter"
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrNotAuthenticated"
+          },
+          "403": {
+            "$ref": "#/components/responses/ErrResourceNotFound"
+          },
+          "404": {
+            "$ref": "#/components/responses/ErrResourceNotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/ErrUnprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrUnexpected"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an organization",
+        "description": "When an organization is deleted, user roles associated with the organization will also be deleted.\n\n__Permitted Roles:__\n* Admin",
+        "security": [
+          {
+            "uaa": [
+              "cloud_controller.admin"
             ]
           }
         ],
