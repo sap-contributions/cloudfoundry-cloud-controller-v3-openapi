@@ -14,7 +14,11 @@ info:
     identifier: Apache-2.0
   version: 3.151.0
 servers:
-  - url: https://api.cf.eu12.hana.ondemand.com/
+  - url: https://api.cf.{landscape}.hana.ondemand.com/
+    variables:
+      landscape:
+        default: eu12
+        description: The cloud foundry landscape.
 tags:
   - name: Admin
     description: Endpoints specific to administrative users.
