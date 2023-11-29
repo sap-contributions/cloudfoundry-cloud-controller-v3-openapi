@@ -1923,9 +1923,45 @@ paths:
           - cloud_controller.write
       tags:
         - Organizations
-      responses: #TODO
-        "204":
-          description: No Content
+      requestBody:
+        description: Creates a new organization
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Organization name
+                  examples: ['my-space']
+                suspended:
+                  type: boolean
+                  description: Whether an organization is suspended or not
+                  examples: [false]
+                metadata:
+                  $ref: '#/components/schemas/MetadataObject'
+              required:
+                - name
+      responses:
+        "201":
+          description: The created organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationObject'
+        "400":
+          $ref: '#/components/responses/ErrBadQueryParameter'
+        "401":
+          $ref: '#/components/responses/ErrNotAuthenticated'
+        "403":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "404":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "422":
+          $ref: '#/components/responses/ErrUnprocessableEntity'
+        "500":
+          $ref: '#/components/responses/ErrUnexpected'
   /v3/organizations/{guid}:
     parameters:
       - in: path
@@ -1953,7 +1989,8 @@ paths:
       responses:
         "200":
           description: The organization
-          $ref: '#/components/schemas/OrganizationObject'
+          schema:
+            $ref: '#/components/schemas/OrganizationObject'
         "400":
           $ref: '#/components/responses/ErrBadQueryParameter'
         "401":
