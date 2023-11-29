@@ -656,7 +656,7 @@ paths:
         * Global Auditor
       security:
         - uaa:
-          - cloud_controller.admin
+          - cloud_controller.admin"
           - cloud_controller.admin_read_only
           - cloud_controller.global_auditor
       tags:
@@ -5076,21 +5076,6 @@ paths:
         required: true
         description: Unique identifier for the space
         example: 885735b5-aea4-4cf5-8e44-961af0e41920
-    delete:
-      summary: Delete a space
-      description: |-
-        __Permitted Roles:__
-        * Admin
-        * Org Manager
-      security:
-        - uaa:
-          - cloud_controller.admin
-          - cloud_controller.write
-      tags:
-        - Spaces
-      responses: #TODO
-        "204":
-          description: No Content
     get:
       summary: Get a space
       description: |-
@@ -5112,9 +5097,39 @@ paths:
           - cloud_controller.read
       tags:
         - Spaces
-      responses: #TODO
-        "204":
-          description: No Content
+      parameters:
+        - in: path
+          name: guid
+          schema:
+            $ref: '#/components/schemas/UUID'
+          required: true
+          description: Unique identifier for the space
+          example: 885735b5-aea4-4cf5-8e44-961af0e41920
+        - in: query
+          name: include
+          schema:
+            type: string
+          description: Optionally include additional related resources in the response
+          example: organization
+      responses:
+        "200":
+          description: A space
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpaceObject'
+        "400":
+          $ref: '#/components/responses/ErrBadQueryParameter'
+        "401":
+          $ref: '#/components/responses/ErrNotAuthenticated'
+        "403":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "404":
+          $ref: '#/components/responses/ErrResourceNotFound'
+        "422":
+          $ref: '#/components/responses/ErrUnprocessableEntity'
+        "500":
+          $ref: '#/components/responses/ErrUnexpected'
     patch:
       summary: Update a space
       description: |-
@@ -5122,6 +5137,21 @@ paths:
         * Admin
         * Org Manager
         * Space Manager
+      security:
+        - uaa:
+          - cloud_controller.admin
+          - cloud_controller.write
+      tags:
+        - Spaces
+      responses: #TODO
+        "204":
+          description: No Content
+    delete:
+      summary: Delete a space
+      description: |-
+        __Permitted Roles:__
+        * Admin
+        * Org Manager
       security:
         - uaa:
           - cloud_controller.admin
@@ -5817,6 +5847,7 @@ paths:
       responses: #TODO
         "204":
           description: No Content
+
 components:
   securitySchemes:
     uaa:
@@ -5838,6 +5869,76 @@ components:
             cloud_controller.write: This scope provides write access to resources based on user roles
             cloud_controller.update_build_state: This scope allows its bearer to update the state of a build; currently only used when updating builds
             cloud_controller_service_permissions.read: This scope provides read only access for service instance permissions
+
+  responses:
+    ErrBadQueryParameter:
+      description: An invalid query parameter was given
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorsObject'
+              - properties:
+                  errors:
+                    examples:
+                      - code: 10005
+                        title: CF-BadQueryParameter
+                        detail: 'The query parameter is invalid: Unknown query parameter(s): "xxx".'
+    ErrNotAuthenticated:
+      description:  Something was wrong with the auth token. Either it wasn't given or it was invalid.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorsObject'
+              - properties:
+                  errors:
+                    examples:
+                      - code: 10002
+                        title: CF-NotAuthenticated
+                        detail: 'Authentication error'
+    ErrNotAuthorized:
+      description:  The authenticated user does not have permission to perform this operation
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorsObject'
+              - properties:
+                  errors:
+                    examples:
+                      - code: 10003
+                        title: CF-NotAuthorized
+                        detail: 'Authentication error'
+    ErrResourceNotFound:
+      description: The specified resource does not exist, or the authenticated user cannot read it
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorsObject'
+              - properties:
+                  errors:
+                    examples:
+                      - code: 10010
+                        title: CF-ResourceNotFound
+                        detail: 'Resource not found'
+    ErrUnprocessableEntity:
+      description: Catch-all error when an operation fails to complete; the detail field will contain more information
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorsObject'
+              - properties:
+                  errors:
+                    examples:
+                      - code: 10008
+                        title: CF-UnprocessableEntity
+                        detail: 'Operation xyz failed to complete'
+    ErrUnexpected:
+      description: An unexpected, uncaught error occurred; the CC logs will contain more information
+
   schemas:
     ErrorObject:
       type: object
@@ -5847,13 +5948,24 @@ components:
         code:
           type: integer
           description: A numeric code for this error
+          examples: [999999]
         title:
           type: string
           description: Name of the error
+          examples: ['CF-DemoError']
         detail:
           type: string
           description: Detailed description of the error
+          examples: ['This message provides you with some more details, however never programmatically rely on it!']
       required: [code, title]
+    ErrorsObject:
+      type: object
+      description: A list of errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
     LinkObject:
       type: object
       description: |-
