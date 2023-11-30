@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    validate:
+      glob: "openapi.spec.yml"
+      run: go run validator/main.go {staged_files}

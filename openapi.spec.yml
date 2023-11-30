@@ -8,7 +8,6 @@ info:
     - Applications consisting of several processes via a Procfile
     - Direct access to application packages and droplets
     - Changing application source code without stopping the app via deployments
-
   license:
     name: Apache 2.0
     identifier: Apache-2.0
