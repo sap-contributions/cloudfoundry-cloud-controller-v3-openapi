@@ -1,2 +1,2 @@
 validate:
-	@go run validator/main.go
+	@go run validator/main.go openapi.spec.yml

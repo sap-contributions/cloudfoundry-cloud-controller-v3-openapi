@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"os"
 
 	"github.com/pb33f/libopenapi"
@@ -8,7 +9,11 @@ import (
 )
 
 func main() {
-	openapiSpec, err := os.ReadFile("openapi.spec.yml")
+	specPtr := flag.String("spec", "openapi.spec.yml", "the openapi spec to be validated")
+
+	flag.Parse()
+
+	openapiSpec, err := os.ReadFile(*specPtr)
 
 	if err != nil {
 		panic(err)
