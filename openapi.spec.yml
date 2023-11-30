@@ -1886,7 +1886,7 @@ paths:
           - cloud_controller.read
       tags:
         - Organizations
-      parameters: #TODO
+      #parameters: #TODO
       responses:
         "200":
           description: A list of organizations
